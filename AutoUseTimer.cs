@@ -20,11 +20,11 @@ namespace HiddenUniverse_WebClient
             timer.Interval = interval; // in miliseconds
             timer.Start();
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
-            if (owner != null)
+            if (owner != null && FlyffWCForm.Instance != null)
             {
-                FlyffWCForm.Instance.InitAutoUse(owner);
+                await FlyffWCForm.Instance.InitAutoUseAsync(owner).ConfigureAwait(true);
             }
         }
     }
