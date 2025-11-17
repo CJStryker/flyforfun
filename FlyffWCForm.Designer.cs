@@ -382,6 +382,7 @@ namespace HiddenUniverse_WebClient
             this.autoUseTB.Controls.Add(this.autoUseC, 2, 0);
             this.autoUseTB.Controls.Add(this.autoUseB, 1, 0);
             this.autoUseTB.Controls.Add(this.autoUseA, 0, 0);
+            this.autoUseTB.Dock = System.Windows.Forms.DockStyle.Top;
             this.autoUseTB.Enabled = false;
             this.autoUseTB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseTB.Location = new System.Drawing.Point(3, 3);
@@ -692,19 +693,16 @@ namespace HiddenUniverse_WebClient
             // FlyffWCForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1896, 1016);
             this.Controls.Add(this.mainLayout);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1200, 720);
             this.Name = "FlyffWCForm";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Flyff Universe Webclient";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Flyff Universe Client";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.autoUseTB.ResumeLayout(false);
