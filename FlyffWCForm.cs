@@ -60,6 +60,7 @@ namespace HiddenUniverse_WebClient
         {
             if (_instance == null) { _instance = this; }
             InitializeComponent();
+            PrimeCommandSelectors();
             CheckForUpdates();
             SetArguments();
         }
@@ -73,6 +74,21 @@ namespace HiddenUniverse_WebClient
             ArgumentManager.Instance.InitializeArguments();
             if (assistMode) { selectedBuffSlots = new List<string>(); SaveManager.Instance.LoadAssistfsConfig(); }
             InitializeChromium();
+        }
+        private void PrimeCommandSelectors()
+        {
+            if (inventoryTaskbarSelector.Items.Count > 0) { inventoryTaskbarSelector.SelectedIndex = 0; }
+            if (inventorySlotSelector.Items.Count > 0) { inventorySlotSelector.SelectedIndex = 0; }
+            if (attackTaskbarSelector.Items.Count > 0) { attackTaskbarSelector.SelectedIndex = 0; }
+            if (attackSlotSelector.Items.Count > 0) { attackSlotSelector.SelectedIndex = 0; }
+            if (inventoryQuickList.Items.Count > 0)
+            {
+                inventoryQuickList.Items[0].Tag = Tuple.Create(0, 1);
+            }
+            if (inventoryQuickList.Items.Count > 1)
+            {
+                inventoryQuickList.Items[1].Tag = Tuple.Create(1, 4);
+            }
         }
         public void EnableAssistMode()
         {
@@ -132,21 +148,17 @@ namespace HiddenUniverse_WebClient
             autoUseGroupBox.Visible = true;
             autoUseGroupBox.Enabled = true;
             autoUseTB.Visible = autoUseTB.Enabled = autoUseA.Visible = autoUseA.Enabled = autoUseB.Visible = autoUseB.Enabled = autoUseC.Visible = autoUseC.Enabled = autoUseButt.Visible = autoUseButt.Enabled = true;
-            UpdateAutomationStatus("Auto use configuration available");
+            autoUseHeaderLabel.Visible = true;
         }
         public void InitializeChromium()
         {
-            if (!Cef.IsInitialized)
-            {
-                CefSettings settings = new CefSettings();
-                Cef.EnableHighDPISupport();
-                settings.CachePath = ArgumentManager.profilePath;
-                settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
-                Cef.Initialize(settings);
-            }
-            chromeBrowser = new ChromiumWebBrowser(FlyffGameUrl);
-            browserContainer.Controls.Clear();
-            browserContainer.Controls.Add(chromeBrowser);
+            CefSettings settings = new CefSettings();
+            Cef.EnableHighDPISupport();
+            settings.CachePath = ArgumentManager.profilePath;
+            settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
+            Cef.Initialize(settings);
+            chromeBrowser = new ChromiumWebBrowser("https://universe.flyff.com/play");
+            browserHostPanel.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
             chromeBrowser.JavascriptMessageReceived += chromeBrowser_HandleJavascriptMessage;
             chromeBrowser.FrameLoadEnd += chromeBrowser_InjectAutomationBridge;
@@ -776,49 +788,60 @@ namespace HiddenUniverse_WebClient
             }
         }
 
-        private List<int> BuildKeySequence(string raw)
+        private void useSelectedItemButton_Click(object sender, EventArgs e)
         {
-            List<int> sequence = new List<int>();
-            if (string.IsNullOrWhiteSpace(raw)) { return sequence; }
-            var tokens = raw.Split(new char[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var token in tokens)
-            {
-                var trimmed = token.Trim();
-                if (string.IsNullOrEmpty(trimmed)) { continue; }
-                int slotIndex;
-                if (Int32.TryParse(trimmed, out slotIndex) && slotIndex >= 0 && slotIndex < Keybinds.GetSlots().Length)
-                {
-                    sequence.Add(Keybinds.GetSlots()[slotIndex]);
-                    continue;
-                }
-                Keys parsedKey;
-                if (Enum.TryParse(trimmed, true, out parsedKey))
-                {
-                    sequence.Add((int)parsedKey);
-                }
-            }
-            return sequence;
+            ActivateSelectedSlot(inventoryTaskbarSelector, inventorySlotSelector);
         }
-        private int ParseIntervalFromText(string text)
+
+        private void triggerAttackSlotButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(text)) { return 1000; }
-            GroupCollection msMatch = RegexCheck.Test(text, "Every ([0-9]{1,3}) ms");
-            if (msMatch != null)
-            {
-                return Int32.Parse(msMatch[1].Value);
-            }
-            GroupCollection secMatch = RegexCheck.Test(text, "Every ([0-9]{1,2}) seconds");
-            if (secMatch != null)
-            {
-                return Int32.Parse(secMatch[1].Value) * 1000;
-            }
-            return 1000;
+            ActivateSelectedSlot(attackTaskbarSelector, attackSlotSelector);
         }
-        private double Distance(PointF a, PointF b)
+
+        private void basicAttackButton_Click(object sender, EventArgs e)
         {
-            double dx = a.X - b.X;
-            double dy = a.Y - b.Y;
-            return Math.Sqrt(dx * dx + dy * dy);
+            sendKeyCodeToBrowser(Keybinds.actionKey);
+        }
+
+        private async void burstAttackButton_Click(object sender, EventArgs e)
+        {
+            await ExecuteAttackBurstAsync();
+        }
+
+        private void inventoryQuickList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (inventoryQuickList.SelectedItems.Count == 0) { return; }
+            if (inventoryQuickList.SelectedItems[0].Tag is Tuple<int, int> mapping)
+            {
+                inventoryTaskbarSelector.SelectedIndex = mapping.Item1;
+                inventorySlotSelector.SelectedIndex = mapping.Item2;
+            }
+        }
+
+        private void ActivateSelectedSlot(ComboBox taskbarSelector, ComboBox slotSelector)
+        {
+            if (taskbarSelector.SelectedIndex < 0 || slotSelector.SelectedIndex < 0) { return; }
+            ActivateActionSlot(taskbarSelector.SelectedIndex, slotSelector.SelectedIndex);
+        }
+
+        private void ActivateActionSlot(int taskbarIndex, int slotIndex)
+        {
+            var taskbars = Keybinds.GetTaskbars();
+            var slots = Keybinds.GetSlots();
+            if (taskbarIndex < 0 || taskbarIndex >= taskbars.Length) { return; }
+            if (slotIndex < 0 || slotIndex >= slots.Length) { return; }
+            sendKeyCodeToBrowser(taskbars[taskbarIndex]);
+            sendKeyCodeToBrowser(slots[slotIndex]);
+        }
+
+        private async Task ExecuteAttackBurstAsync()
+        {
+            var combo = new (int taskbar, int slot)[] { (0, 0), (0, 1), (0, 2) };
+            foreach (var step in combo)
+            {
+                ActivateActionSlot(step.taskbar, step.slot);
+                await Task.Delay(150);
+            }
         }
 
         // Send Keyboard Keystroke
