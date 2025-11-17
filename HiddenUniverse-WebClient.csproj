@@ -153,8 +153,10 @@
   <ItemGroup>
     <Compile Include="ArgumentManager.cs" />
     <Compile Include="AutoBuffTimer.cs" />
+    <Compile Include="AutoCombatTimer.cs" />
     <Compile Include="AutoFollowTimer.cs" />
     <Compile Include="AutoHealerTimer.cs" />
+    <Compile Include="AutoPathTimer.cs" />
     <Compile Include="AutoUseForm.cs">
       <SubType>Form</SubType>
     </Compile>

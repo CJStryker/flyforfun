@@ -8,6 +8,7 @@ using System.Threading;
 using System.Collections.Generic;
 using AutoUpdaterDotNET;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace HiddenUniverse_WebClient
 {
@@ -21,6 +22,8 @@ namespace HiddenUniverse_WebClient
         private AutoHealTimer autoHealerTimer = new AutoHealTimer();
         private AutoFollowTimer autoFollowTimer = new AutoFollowTimer();
         private AutoBuffTimer autoBuffTimer = new AutoBuffTimer();
+        private AutoCombatTimer autoCombatTimer = new AutoCombatTimer();
+        private AutoPathTimer autoPathTimer = new AutoPathTimer();
         private AutoUseTimer autoUseTimerA = new AutoUseTimer();
         private AutoUseTimer autoUseTimerB = new AutoUseTimer();
         private AutoUseTimer autoUseTimerC = new AutoUseTimer();
@@ -28,8 +31,19 @@ namespace HiddenUniverse_WebClient
 
         // Configuration Variables
         bool assistMode = false;
-        public int autoHealSelectedIndex = -1;      
+        public int autoHealSelectedIndex = -1;
         public int delaybb = 1500;
+        public int autoCombatSelectedIndex = -1;
+        public int autoPathSelectedIndex = -1;
+        public string autoCombatRotationConfig = string.Empty;
+        public string autoPathWaypointConfig = string.Empty;
+        private readonly List<int> autoCombatKeySequence = new List<int>();
+        private readonly List<int> autoPathKeySequence = new List<int>();
+        private int autoCombatKeyIndex = 0;
+        private int autoPathKeyIndex = 0;
+        private bool automationBridgeAvailable = false;
+        private bool playerInCombat = false;
+        private PointF playerPosition = PointF.Empty;
 
         // Auto Use Configuration
         internal Point autoUsePosA, autoUsePosB, autoUsePosC;
@@ -37,6 +51,9 @@ namespace HiddenUniverse_WebClient
         internal int autoUseIntervalB = 300000;
         internal int autoUseIntervalC = 300000;
         public List<string> selectedBuffSlots { get; set; }
+
+        public bool AutomationBridgeAvailable { get { return automationBridgeAvailable; } }
+        public bool PlayerInCombat { get { return playerInCombat; } }
 
         // initiailization
         public FlyffWCForm()
@@ -70,8 +87,35 @@ namespace HiddenUniverse_WebClient
             autoBuffTime.Visible = true;
             autoBuffTree.Visible = true;
             autoBuffTree.Enabled = true;
+            autoCombatBox.Visible = true;
+            autoCombatBox.Enabled = true;
+            autoCombatIntervalBox.Visible = true;
+            autoCombatIntervalBox.Enabled = true;
+            autoCombatSkills.Visible = true;
+            autoCombatSkills.Enabled = true;
+            if (autoCombatIntervalBox.SelectedIndex == -1) { autoCombatIntervalBox.SelectedIndex = 1; }
+            autoPathBox.Visible = true;
+            autoPathBox.Enabled = true;
+            autoPathIntervalBox.Visible = true;
+            autoPathIntervalBox.Enabled = true;
+            autoPathWaypoints.Visible = true;
+            autoPathWaypoints.Enabled = true;
+            if (autoPathIntervalBox.SelectedIndex == -1) { autoPathIntervalBox.SelectedIndex = 0; }
             EnableAutoFollow();
             UpdateAutomationStatus("Assist mode ready");
+        }
+        public void ApplyAutomationConfigFromSave()
+        {
+            if (autoCombatSelectedIndex >= 0 && autoCombatSelectedIndex < autoCombatIntervalBox.Items.Count)
+            {
+                autoCombatIntervalBox.SelectedIndex = autoCombatSelectedIndex;
+            }
+            autoCombatSkills.Text = autoCombatRotationConfig ?? string.Empty;
+            if (autoPathSelectedIndex >= 0 && autoPathSelectedIndex < autoPathIntervalBox.Items.Count)
+            {
+                autoPathIntervalBox.SelectedIndex = autoPathSelectedIndex;
+            }
+            autoPathWaypoints.Text = autoPathWaypointConfig ?? string.Empty;
         }
         public void EnableAutoFollow()
         {
@@ -104,9 +148,10 @@ namespace HiddenUniverse_WebClient
             browserContainer.Controls.Clear();
             browserContainer.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
+            chromeBrowser.JavascriptMessageReceived += chromeBrowser_HandleJavascriptMessage;
+            chromeBrowser.FrameLoadEnd += chromeBrowser_InjectAutomationBridge;
             chromeBrowser.BringToFront();
             if (autoUseTB.Enabled) {
-                chromeBrowser.JavascriptMessageReceived += chromeBrowser_SetMousePos;
                 chromeBrowser.FrameLoadEnd += chromeBrowser_GetMousePosOnClick;
             }
             UpdateAutomationStatus("Client ready");
@@ -288,8 +333,9 @@ namespace HiddenUniverse_WebClient
         }
         public void autoBuffTreeCheckItem (string[] config)
         {
-            for (int i = 1; i < config.Length; i++) // check all saved items
+            for (int i = 0; i < config.Length; i++) // check all saved items
             {
+                if (string.IsNullOrWhiteSpace(config[i]) || !config[i].Contains("x")) { continue; }
                 int fKeyIndex, nKeyIndex;
                 AutoBuffStringConvert(config[i], out fKeyIndex, out nKeyIndex);
                 autoBuffTree.Nodes[fKeyIndex].Nodes[nKeyIndex].Checked = true;
@@ -317,6 +363,139 @@ namespace HiddenUniverse_WebClient
         private void autoBuffTime_DropDownClosed(object sender, EventArgs e)
         {
             if (autoHealerTimer.Timer != null && !autoHealerTimer.Timer.Enabled && autoHealTime.Enabled) { autoHealerTimer.Timer.Start(); }
+        }
+
+        // Auto Combat Methods
+        private void autoCombatBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (autoCombatBox.Checked)
+            {
+                autoCombatBox.BackColor = Color.PeachPuff;
+                if (autoCombatIntervalBox.SelectedIndex == -1) { autoCombatIntervalBox.SelectedIndex = 1; }
+                autoCombatKeyIndex = 0;
+                if (autoCombatTimer.Timer == null)
+                {
+                    autoCombatTimer.InitTimer();
+                }
+                else
+                {
+                    autoCombatTimer.Timer.Interval = autoCombatTimer.Interval;
+                    autoCombatTimer.Timer.Start();
+                }
+            }
+            else
+            {
+                autoCombatBox.BackColor = Color.Gray;
+                if (autoCombatTimer.Timer != null) { autoCombatTimer.Timer.Stop(); }
+            }
+        }
+        private void autoCombatIntervalBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            autoCombatSelectedIndex = autoCombatIntervalBox.SelectedIndex;
+            int interval = ParseIntervalFromText(autoCombatIntervalBox.GetItemText(autoCombatIntervalBox.SelectedItem));
+            autoCombatTimer.Interval = interval;
+            if (autoCombatTimer.Timer != null)
+            {
+                autoCombatTimer.Timer.Interval = interval;
+                if (autoCombatBox.Checked && !autoCombatTimer.Timer.Enabled)
+                {
+                    autoCombatTimer.Timer.Start();
+                }
+            }
+            else if (autoCombatBox.Checked)
+            {
+                autoCombatTimer.InitTimer();
+            }
+        }
+        private void autoCombatSkills_TextChanged(object sender, EventArgs e)
+        {
+            autoCombatRotationConfig = autoCombatSkills.Text;
+            autoCombatKeySequence.Clear();
+            autoCombatKeySequence.AddRange(BuildKeySequence(autoCombatRotationConfig));
+            autoCombatKeyIndex = 0;
+        }
+        public void ExecuteCombatRotation()
+        {
+            if (!autoCombatBox.Checked || autoCombatKeySequence.Count == 0) { return; }
+            if (autoCombatKeyIndex >= autoCombatKeySequence.Count) { autoCombatKeyIndex = 0; }
+            sendKeyCodeToBrowser(autoCombatKeySequence[autoCombatKeyIndex]);
+            autoCombatKeyIndex = (autoCombatKeyIndex + 1) % autoCombatKeySequence.Count;
+        }
+
+        // Auto Path Methods
+        private void autoPathBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (autoPathBox.Checked)
+            {
+                autoPathBox.BackColor = Color.PeachPuff;
+                if (autoPathIntervalBox.SelectedIndex == -1) { autoPathIntervalBox.SelectedIndex = 0; }
+                autoPathKeyIndex = 0;
+                autoPathTimer.LastPosition = PointF.Empty;
+                if (autoPathTimer.Timer == null)
+                {
+                    autoPathTimer.InitTimer();
+                }
+                else
+                {
+                    autoPathTimer.Timer.Interval = autoPathTimer.Interval;
+                    autoPathTimer.Timer.Start();
+                }
+            }
+            else
+            {
+                autoPathBox.BackColor = Color.Gray;
+                autoPathTimer.LastPosition = PointF.Empty;
+                if (autoPathTimer.Timer != null) { autoPathTimer.Timer.Stop(); }
+            }
+        }
+        private void autoPathIntervalBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            autoPathSelectedIndex = autoPathIntervalBox.SelectedIndex;
+            int interval = ParseIntervalFromText(autoPathIntervalBox.GetItemText(autoPathIntervalBox.SelectedItem));
+            autoPathTimer.Interval = interval;
+            if (autoPathTimer.Timer != null)
+            {
+                autoPathTimer.Timer.Interval = interval;
+                if (autoPathBox.Checked && !autoPathTimer.Timer.Enabled)
+                {
+                    autoPathTimer.Timer.Start();
+                }
+            }
+            else if (autoPathBox.Checked)
+            {
+                autoPathTimer.InitTimer();
+            }
+        }
+        private void autoPathWaypoints_TextChanged(object sender, EventArgs e)
+        {
+            autoPathWaypointConfig = autoPathWaypoints.Text;
+            autoPathKeySequence.Clear();
+            autoPathKeySequence.AddRange(BuildKeySequence(autoPathWaypointConfig));
+            autoPathKeyIndex = 0;
+        }
+        public void ExecutePathingStep(AutoPathTimer pathTimer)
+        {
+            if (!autoPathBox.Checked || autoPathKeySequence.Count == 0) { return; }
+            if (autoPathKeyIndex >= autoPathKeySequence.Count) { autoPathKeyIndex = 0; }
+            bool usePosition = pathTimer != null && pathTimer.UsePositionState && automationBridgeAvailable;
+            if (usePosition)
+            {
+                if (playerPosition == PointF.Empty) { return; }
+                if (pathTimer.LastPosition != PointF.Empty)
+                {
+                    if (Distance(playerPosition, pathTimer.LastPosition) > 2f)
+                    {
+                        pathTimer.LastPosition = playerPosition;
+                        return;
+                    }
+                }
+            }
+            sendKeyCodeToBrowser(autoPathKeySequence[autoPathKeyIndex]);
+            autoPathKeyIndex = (autoPathKeyIndex + 1) % autoPathKeySequence.Count;
+            if (usePosition)
+            {
+                pathTimer.LastPosition = playerPosition;
+            }
         }
 
         // Auto Follow Methods
@@ -359,11 +538,50 @@ namespace HiddenUniverse_WebClient
                 ");
             }
         }
-        private void chromeBrowser_SetMousePos(object sender, JavascriptMessageReceivedEventArgs e)
+
+        private void chromeBrowser_InjectAutomationBridge(object sender, FrameLoadEndEventArgs e)
         {
-            if (e.Message != null)
+            if (e.Frame.IsMain)
             {
-                var msg = Convert.ToString(e.Message).Split(',');
+                chromeBrowser.ExecuteScriptAsync(@"
+                    (function(){
+                        if(window.__huAutomationBridge){return;}
+                        window.__huAutomationBridge = true;
+                        const reportState = function(){
+                            try {
+                                var player = (window.gameClient && window.gameClient.player) ? window.gameClient.player : null;
+                                if(player && player.position){
+                                    CefSharp.PostMessage('position:' + player.position.x + ',' + player.position.y);
+                                }
+                                if(player && typeof player.isInCombat !== 'undefined'){
+                                    CefSharp.PostMessage('combat:' + player.isInCombat);
+                                }
+                            } catch (err) {}
+                        };
+                        setInterval(reportState, 1000);
+                    })();
+                ");
+            }
+        }
+        private void chromeBrowser_HandleJavascriptMessage(object sender, JavascriptMessageReceivedEventArgs e)
+        {
+            if (e.Message == null) { return; }
+            var payload = Convert.ToString(e.Message);
+            if (string.IsNullOrWhiteSpace(payload)) { return; }
+            if (payload.StartsWith("position:", StringComparison.OrdinalIgnoreCase))
+            {
+                HandlePositionPayload(payload.Substring("position:".Length));
+                return;
+            }
+            if (payload.StartsWith("combat:", StringComparison.OrdinalIgnoreCase))
+            {
+                HandleCombatPayload(payload.Substring("combat:".Length));
+                return;
+            }
+            if (payload.Contains(","))
+            {
+                var msg = payload.Split(',');
+                if (msg.Length < 2) { return; }
                 if (autoUseA.Checked && autoUsePosA == default(Point))
                 {
                     autoUsePosA.X = Int32.Parse(msg[0]);
@@ -379,6 +597,29 @@ namespace HiddenUniverse_WebClient
                     autoUsePosC.X = Int32.Parse(msg[0]);
                     autoUsePosC.Y = Int32.Parse(msg[1]);
                 }
+            }
+        }
+
+        private void HandlePositionPayload(string payload)
+        {
+            var msg = payload.Split(',');
+            if (msg.Length < 2) { return; }
+            float x, y;
+            if (float.TryParse(msg[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x) &&
+                float.TryParse(msg[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y))
+            {
+                playerPosition = new PointF(x, y);
+                automationBridgeAvailable = true;
+            }
+        }
+
+        private void HandleCombatPayload(string payload)
+        {
+            bool combatState;
+            if (bool.TryParse(payload, out combatState))
+            {
+                playerInCombat = combatState;
+                automationBridgeAvailable = true;
             }
         }
         public void InitAutoUse(string owner)
@@ -533,6 +774,51 @@ namespace HiddenUniverse_WebClient
             {
                 autoUseIntervalC = autoUseTimerC.interval = autoUseTimerC.Timer.Interval = interval;
             }
+        }
+
+        private List<int> BuildKeySequence(string raw)
+        {
+            List<int> sequence = new List<int>();
+            if (string.IsNullOrWhiteSpace(raw)) { return sequence; }
+            var tokens = raw.Split(new char[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var token in tokens)
+            {
+                var trimmed = token.Trim();
+                if (string.IsNullOrEmpty(trimmed)) { continue; }
+                int slotIndex;
+                if (Int32.TryParse(trimmed, out slotIndex) && slotIndex >= 0 && slotIndex < Keybinds.GetSlots().Length)
+                {
+                    sequence.Add(Keybinds.GetSlots()[slotIndex]);
+                    continue;
+                }
+                Keys parsedKey;
+                if (Enum.TryParse(trimmed, true, out parsedKey))
+                {
+                    sequence.Add((int)parsedKey);
+                }
+            }
+            return sequence;
+        }
+        private int ParseIntervalFromText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) { return 1000; }
+            GroupCollection msMatch = RegexCheck.Test(text, "Every ([0-9]{1,3}) ms");
+            if (msMatch != null)
+            {
+                return Int32.Parse(msMatch[1].Value);
+            }
+            GroupCollection secMatch = RegexCheck.Test(text, "Every ([0-9]{1,2}) seconds");
+            if (secMatch != null)
+            {
+                return Int32.Parse(secMatch[1].Value) * 1000;
+            }
+            return 1000;
+        }
+        private double Distance(PointF a, PointF b)
+        {
+            double dx = a.X - b.X;
+            double dy = a.Y - b.Y;
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
         // Send Keyboard Keystroke
