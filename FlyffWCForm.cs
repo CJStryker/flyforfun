@@ -77,6 +77,7 @@ namespace HiddenUniverse_WebClient
         public void EnableAutoUse()
         {
             autoUseTB.Visible = autoUseTB.Enabled = autoUseA.Visible = autoUseA.Enabled = autoUseB.Visible = autoUseB.Enabled = autoUseC.Visible = autoUseC.Enabled = autoUseButt.Visible = autoUseButt.Enabled = true;
+            autoUseHeaderLabel.Visible = true;
         }
         public void InitializeChromium()
         {
@@ -86,7 +87,7 @@ namespace HiddenUniverse_WebClient
             settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
             Cef.Initialize(settings);
             chromeBrowser = new ChromiumWebBrowser("https://universe.flyff.com/play");
-            this.Controls.Add(chromeBrowser);
+            browserHostPanel.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
             if (autoUseTB.Enabled) {
                 chromeBrowser.JavascriptMessageReceived += chromeBrowser_SetMousePos;
