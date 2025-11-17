@@ -1,4 +1,4 @@
-﻿namespace HiddenUniverse_WebClient
+namespace HiddenUniverse_WebClient
 {
     partial class FlyffWCForm
     {
@@ -92,6 +92,11 @@
             treeNode31,
             treeNode32});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlyffWCForm));
+            System.Windows.Forms.TableLayoutPanel sessionLayout;
+            System.Windows.Forms.TableLayoutPanel assistLayout;
+            System.Windows.Forms.TableLayoutPanel buffLayout;
+            System.Windows.Forms.TableLayoutPanel followLayout;
+            System.Windows.Forms.TableLayoutPanel autoUseLayout;
             this.autoHealBox = new System.Windows.Forms.CheckBox();
             this.autoHealTime = new System.Windows.Forms.ComboBox();
             this.autoBuffBox = new System.Windows.Forms.CheckBox();
@@ -105,20 +110,49 @@
             this.autoUseB = new System.Windows.Forms.CheckBox();
             this.autoUseA = new System.Windows.Forms.CheckBox();
             this.autoUseButt = new System.Windows.Forms.Button();
+            this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.controlPanel = new System.Windows.Forms.Panel();
+            this.controlFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.sessionGroupBox = new System.Windows.Forms.GroupBox();
+            this.reloadGameButton = new System.Windows.Forms.Button();
+            this.automationStatusLabel = new System.Windows.Forms.Label();
+            this.assistGroupBox = new System.Windows.Forms.GroupBox();
+            this.buffGroupBox = new System.Windows.Forms.GroupBox();
+            this.followGroupBox = new System.Windows.Forms.GroupBox();
+            this.autoUseGroupBox = new System.Windows.Forms.GroupBox();
+            this.browserContainer = new System.Windows.Forms.Panel();
+            sessionLayout = new System.Windows.Forms.TableLayoutPanel();
+            assistLayout = new System.Windows.Forms.TableLayoutPanel();
+            buffLayout = new System.Windows.Forms.TableLayoutPanel();
+            followLayout = new System.Windows.Forms.TableLayoutPanel();
+            autoUseLayout = new System.Windows.Forms.TableLayoutPanel();
             this.autoUseTB.SuspendLayout();
+            this.mainLayout.SuspendLayout();
+            this.controlPanel.SuspendLayout();
+            this.controlFlowLayout.SuspendLayout();
+            this.sessionGroupBox.SuspendLayout();
+            sessionLayout.SuspendLayout();
+            this.assistGroupBox.SuspendLayout();
+            assistLayout.SuspendLayout();
+            this.buffGroupBox.SuspendLayout();
+            buffLayout.SuspendLayout();
+            this.followGroupBox.SuspendLayout();
+            followLayout.SuspendLayout();
+            this.autoUseGroupBox.SuspendLayout();
+            autoUseLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoHealBox
             // 
-            this.autoHealBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoHealBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoHealBox.BackColor = System.Drawing.Color.Gray;
+            this.autoHealBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoHealBox.Enabled = false;
             this.autoHealBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoHealBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoHealBox.Location = new System.Drawing.Point(1648, 81);
+            this.autoHealBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoHealBox.Location = new System.Drawing.Point(3, 3);
             this.autoHealBox.Name = "autoHealBox";
-            this.autoHealBox.Size = new System.Drawing.Size(236, 53);
+            this.autoHealBox.Size = new System.Drawing.Size(270, 53);
             this.autoHealBox.TabIndex = 0;
             this.autoHealBox.Text = "Auto Heal";
             this.autoHealBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -128,11 +162,11 @@
             // 
             // autoHealTime
             // 
-            this.autoHealTime.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoHealTime.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoHealTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoHealTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.autoHealTime.Enabled = false;
-            this.autoHealTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoHealTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.autoHealTime.FormattingEnabled = true;
             this.autoHealTime.Items.AddRange(new object[] {
             "Every 1 seconds",
@@ -145,9 +179,9 @@
             "Every 8 seconds",
             "Every 9 seconds",
             "Every 10 seconds"});
-            this.autoHealTime.Location = new System.Drawing.Point(1648, 140);
+            this.autoHealTime.Location = new System.Drawing.Point(3, 62);
             this.autoHealTime.Name = "autoHealTime";
-            this.autoHealTime.Size = new System.Drawing.Size(236, 47);
+            this.autoHealTime.Size = new System.Drawing.Size(270, 47);
             this.autoHealTime.TabIndex = 1;
             this.autoHealTime.Visible = false;
             this.autoHealTime.DropDown += new System.EventHandler(this.autoHealTime_DropDown);
@@ -156,15 +190,15 @@
             // 
             // autoBuffBox
             // 
-            this.autoBuffBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoBuffBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoBuffBox.BackColor = System.Drawing.Color.Gray;
+            this.autoBuffBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffBox.Enabled = false;
             this.autoBuffBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoBuffBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoBuffBox.Location = new System.Drawing.Point(1648, 193);
+            this.autoBuffBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoBuffBox.Location = new System.Drawing.Point(3, 3);
             this.autoBuffBox.Name = "autoBuffBox";
-            this.autoBuffBox.Size = new System.Drawing.Size(236, 53);
+            this.autoBuffBox.Size = new System.Drawing.Size(270, 51);
             this.autoBuffBox.TabIndex = 2;
             this.autoBuffBox.Text = "Auto Buff";
             this.autoBuffBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -174,15 +208,15 @@
             // 
             // autoFollowBox
             // 
-            this.autoFollowBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoFollowBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoFollowBox.BackColor = System.Drawing.Color.Gray;
+            this.autoFollowBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoFollowBox.Enabled = false;
             this.autoFollowBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoFollowBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoFollowBox.Location = new System.Drawing.Point(1648, 825);
+            this.autoFollowBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoFollowBox.Location = new System.Drawing.Point(3, 3);
             this.autoFollowBox.Name = "autoFollowBox";
-            this.autoFollowBox.Size = new System.Drawing.Size(236, 53);
+            this.autoFollowBox.Size = new System.Drawing.Size(270, 53);
             this.autoFollowBox.TabIndex = 4;
             this.autoFollowBox.Text = "Auto Follow";
             this.autoFollowBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -192,15 +226,15 @@
             // 
             // autoBuffTree
             // 
-            this.autoBuffTree.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoBuffTree.BackColor = System.Drawing.Color.PeachPuff;
             this.autoBuffTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.autoBuffTree.CheckBoxes = true;
+            this.autoBuffTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffTree.Enabled = false;
-            this.autoBuffTree.Font = new System.Drawing.Font("Franklin Gothic Medium", 20.14286F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffTree.Font = new System.Drawing.Font("Franklin Gothic Medium", 20.14286F);
             this.autoBuffTree.ForeColor = System.Drawing.Color.Black;
             this.autoBuffTree.FullRowSelect = true;
-            this.autoBuffTree.Location = new System.Drawing.Point(1648, 342);
+            this.autoBuffTree.Location = new System.Drawing.Point(3, 176);
             this.autoBuffTree.Name = "autoBuffTree";
             treeNode1.Name = "Slot0";
             treeNode1.Text = "Slot 0";
@@ -273,19 +307,19 @@
             treeNode22,
             treeNode33});
             this.autoBuffTree.Scrollable = false;
-            this.autoBuffTree.Size = new System.Drawing.Size(236, 477);
+            this.autoBuffTree.Size = new System.Drawing.Size(270, 358);
             this.autoBuffTree.TabIndex = 5;
             this.autoBuffTree.Visible = false;
             this.autoBuffTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.autoBuffTree_AfterCheck);
             // 
             // autoBuffTime
             // 
-            this.autoBuffTime.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoBuffTime.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoBuffTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.autoBuffTime.Enabled = false;
             this.autoBuffTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.autoBuffTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.autoBuffTime.FormattingEnabled = true;
             this.autoBuffTime.Items.AddRange(new object[] {
             "Manual Buff",
@@ -298,9 +332,9 @@
             "Every 15 minutes",
             "Every 17 minutes",
             "Every 20 minutes"});
-            this.autoBuffTime.Location = new System.Drawing.Point(1648, 252);
+            this.autoBuffTime.Location = new System.Drawing.Point(3, 60);
             this.autoBuffTime.Name = "autoBuffTime";
-            this.autoBuffTime.Size = new System.Drawing.Size(236, 47);
+            this.autoBuffTime.Size = new System.Drawing.Size(270, 47);
             this.autoBuffTime.TabIndex = 6;
             this.autoBuffTime.Visible = false;
             this.autoBuffTime.DropDown += new System.EventHandler(this.autoBuffTime_DropDown);
@@ -309,15 +343,15 @@
             // 
             // autoBuffCD
             // 
-            this.autoBuffCD.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.autoBuffCD.BackColor = System.Drawing.Color.White;
+            this.autoBuffCD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffCD.Enabled = false;
-            this.autoBuffCD.Font = new System.Drawing.Font("Franklin Gothic Medium", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffCD.Font = new System.Drawing.Font("Franklin Gothic Medium", 18F);
             this.autoBuffCD.ForeColor = System.Drawing.Color.OrangeRed;
-            this.autoBuffCD.Location = new System.Drawing.Point(1648, 296);
+            this.autoBuffCD.Location = new System.Drawing.Point(3, 113);
             this.autoBuffCD.Name = "autoBuffCD";
             this.autoBuffCD.ReadOnly = true;
-            this.autoBuffCD.Size = new System.Drawing.Size(236, 55);
+            this.autoBuffCD.Size = new System.Drawing.Size(270, 55);
             this.autoBuffCD.TabIndex = 7;
             this.autoBuffCD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.autoBuffCD.Visible = false;
@@ -325,13 +359,13 @@
             // 
             // keybindsButt
             // 
-            this.keybindsButt.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.keybindsButt.BackColor = System.Drawing.Color.PeachPuff;
+            this.keybindsButt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.keybindsButt.Enabled = false;
-            this.keybindsButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.keybindsButt.Location = new System.Drawing.Point(1648, 884);
+            this.keybindsButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.keybindsButt.Location = new System.Drawing.Point(3, 62);
             this.keybindsButt.Name = "keybindsButt";
-            this.keybindsButt.Size = new System.Drawing.Size(236, 51);
+            this.keybindsButt.Size = new System.Drawing.Size(270, 49);
             this.keybindsButt.TabIndex = 8;
             this.keybindsButt.Text = "Keybinds";
             this.keybindsButt.UseVisualStyleBackColor = false;
@@ -340,7 +374,6 @@
             // 
             // autoUseTB
             // 
-            this.autoUseTB.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.autoUseTB.BackColor = System.Drawing.Color.PeachPuff;
             this.autoUseTB.ColumnCount = 3;
             this.autoUseTB.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -350,11 +383,12 @@
             this.autoUseTB.Controls.Add(this.autoUseB, 1, 0);
             this.autoUseTB.Controls.Add(this.autoUseA, 0, 0);
             this.autoUseTB.Enabled = false;
-            this.autoUseTB.Location = new System.Drawing.Point(12, 736);
+            this.autoUseTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.autoUseTB.Location = new System.Drawing.Point(3, 3);
             this.autoUseTB.Name = "autoUseTB";
             this.autoUseTB.RowCount = 1;
             this.autoUseTB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.autoUseTB.Size = new System.Drawing.Size(236, 54);
+            this.autoUseTB.Size = new System.Drawing.Size(270, 54);
             this.autoUseTB.TabIndex = 10;
             this.autoUseTB.Visible = false;
             // 
@@ -366,10 +400,10 @@
             this.autoUseC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseC.Enabled = false;
             this.autoUseC.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseC.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseC.Location = new System.Drawing.Point(159, 3);
+            this.autoUseC.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoUseC.Location = new System.Drawing.Point(181, 3);
             this.autoUseC.Name = "autoUseC";
-            this.autoUseC.Size = new System.Drawing.Size(74, 48);
+            this.autoUseC.Size = new System.Drawing.Size(86, 48);
             this.autoUseC.TabIndex = 13;
             this.autoUseC.Text = "C";
             this.autoUseC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -385,10 +419,10 @@
             this.autoUseB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseB.Enabled = false;
             this.autoUseB.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseB.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseB.Location = new System.Drawing.Point(81, 3);
+            this.autoUseB.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoUseB.Location = new System.Drawing.Point(92, 3);
             this.autoUseB.Name = "autoUseB";
-            this.autoUseB.Size = new System.Drawing.Size(72, 48);
+            this.autoUseB.Size = new System.Drawing.Size(83, 48);
             this.autoUseB.TabIndex = 12;
             this.autoUseB.Text = "B";
             this.autoUseB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -404,10 +438,10 @@
             this.autoUseA.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseA.Enabled = false;
             this.autoUseA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseA.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoUseA.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
             this.autoUseA.Location = new System.Drawing.Point(3, 3);
             this.autoUseA.Name = "autoUseA";
-            this.autoUseA.Size = new System.Drawing.Size(72, 48);
+            this.autoUseA.Size = new System.Drawing.Size(83, 48);
             this.autoUseA.TabIndex = 11;
             this.autoUseA.Text = "A";
             this.autoUseA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -417,18 +451,243 @@
             // 
             // autoUseButt
             // 
-            this.autoUseButt.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.autoUseButt.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoUseButt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseButt.Enabled = false;
-            this.autoUseButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseButt.Location = new System.Drawing.Point(12, 793);
+            this.autoUseButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F);
+            this.autoUseButt.Location = new System.Drawing.Point(3, 63);
             this.autoUseButt.Name = "autoUseButt";
-            this.autoUseButt.Size = new System.Drawing.Size(236, 92);
+            this.autoUseButt.Size = new System.Drawing.Size(270, 71);
             this.autoUseButt.TabIndex = 11;
             this.autoUseButt.Text = "Auto Use Settings";
             this.autoUseButt.UseVisualStyleBackColor = false;
             this.autoUseButt.Visible = false;
             this.autoUseButt.Click += new System.EventHandler(this.autoUseButt_Click);
+            // 
+            // mainLayout
+            // 
+            this.mainLayout.ColumnCount = 2;
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 320F));
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayout.Controls.Add(this.controlPanel, 0, 0);
+            this.mainLayout.Controls.Add(this.browserContainer, 1, 0);
+            this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainLayout.Location = new System.Drawing.Point(0, 0);
+            this.mainLayout.Name = "mainLayout";
+            this.mainLayout.RowCount = 1;
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayout.Size = new System.Drawing.Size(1896, 1016);
+            this.mainLayout.TabIndex = 12;
+            // 
+            // controlPanel
+            // 
+            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.controlPanel.Controls.Add(this.controlFlowLayout);
+            this.controlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlPanel.Location = new System.Drawing.Point(3, 3);
+            this.controlPanel.Name = "controlPanel";
+            this.controlPanel.Padding = new System.Windows.Forms.Padding(6);
+            this.controlPanel.Size = new System.Drawing.Size(314, 1010);
+            this.controlPanel.TabIndex = 0;
+            // 
+            // controlFlowLayout
+            // 
+            this.controlFlowLayout.AutoScroll = true;
+            this.controlFlowLayout.Controls.Add(this.sessionGroupBox);
+            this.controlFlowLayout.Controls.Add(this.assistGroupBox);
+            this.controlFlowLayout.Controls.Add(this.buffGroupBox);
+            this.controlFlowLayout.Controls.Add(this.followGroupBox);
+            this.controlFlowLayout.Controls.Add(this.autoUseGroupBox);
+            this.controlFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.controlFlowLayout.Location = new System.Drawing.Point(6, 6);
+            this.controlFlowLayout.Name = "controlFlowLayout";
+            this.controlFlowLayout.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
+            this.controlFlowLayout.Size = new System.Drawing.Size(302, 998);
+            this.controlFlowLayout.TabIndex = 0;
+            this.controlFlowLayout.WrapContents = false;
+            // 
+            // sessionGroupBox
+            // 
+            this.sessionGroupBox.Controls.Add(sessionLayout);
+            this.sessionGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.sessionGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.sessionGroupBox.Name = "sessionGroupBox";
+            this.sessionGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.sessionGroupBox.Size = new System.Drawing.Size(287, 150);
+            this.sessionGroupBox.TabIndex = 0;
+            this.sessionGroupBox.TabStop = false;
+            this.sessionGroupBox.Text = "Client";
+            // 
+            // sessionLayout
+            // 
+            sessionLayout.ColumnCount = 1;
+            sessionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            sessionLayout.Controls.Add(this.reloadGameButton, 0, 0);
+            sessionLayout.Controls.Add(this.automationStatusLabel, 0, 1);
+            sessionLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            sessionLayout.Location = new System.Drawing.Point(8, 32);
+            sessionLayout.Name = "sessionLayout";
+            sessionLayout.RowCount = 2;
+            sessionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            sessionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            sessionLayout.Size = new System.Drawing.Size(271, 110);
+            sessionLayout.TabIndex = 0;
+            // 
+            // reloadGameButton
+            // 
+            this.reloadGameButton.BackColor = System.Drawing.Color.PeachPuff;
+            this.reloadGameButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reloadGameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.reloadGameButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F);
+            this.reloadGameButton.Location = new System.Drawing.Point(3, 3);
+            this.reloadGameButton.Name = "reloadGameButton";
+            this.reloadGameButton.Size = new System.Drawing.Size(265, 54);
+            this.reloadGameButton.TabIndex = 0;
+            this.reloadGameButton.Text = "Reload Client";
+            this.reloadGameButton.UseVisualStyleBackColor = false;
+            this.reloadGameButton.Click += new System.EventHandler(this.reloadGameButton_Click);
+            // 
+            // automationStatusLabel
+            // 
+            this.automationStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.automationStatusLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 10F);
+            this.automationStatusLabel.ForeColor = System.Drawing.Color.Gainsboro;
+            this.automationStatusLabel.Location = new System.Drawing.Point(3, 60);
+            this.automationStatusLabel.Name = "automationStatusLabel";
+            this.automationStatusLabel.Size = new System.Drawing.Size(265, 50);
+            this.automationStatusLabel.TabIndex = 1;
+            this.automationStatusLabel.Text = "Automation status: Idle";
+            this.automationStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // assistGroupBox
+            // 
+            this.assistGroupBox.Controls.Add(assistLayout);
+            this.assistGroupBox.Enabled = false;
+            this.assistGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.assistGroupBox.Location = new System.Drawing.Point(3, 159);
+            this.assistGroupBox.Name = "assistGroupBox";
+            this.assistGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.assistGroupBox.Size = new System.Drawing.Size(287, 152);
+            this.assistGroupBox.TabIndex = 1;
+            this.assistGroupBox.TabStop = false;
+            this.assistGroupBox.Text = "Assist Mode";
+            this.assistGroupBox.Visible = false;
+            // 
+            // assistLayout
+            // 
+            assistLayout.ColumnCount = 1;
+            assistLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            assistLayout.Controls.Add(this.autoHealBox, 0, 0);
+            assistLayout.Controls.Add(this.autoHealTime, 0, 1);
+            assistLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            assistLayout.Location = new System.Drawing.Point(8, 32);
+            assistLayout.Name = "assistLayout";
+            assistLayout.RowCount = 2;
+            assistLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            assistLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            assistLayout.Size = new System.Drawing.Size(271, 112);
+            assistLayout.TabIndex = 0;
+            // 
+            // buffGroupBox
+            // 
+            this.buffGroupBox.Controls.Add(buffLayout);
+            this.buffGroupBox.Enabled = false;
+            this.buffGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buffGroupBox.Location = new System.Drawing.Point(3, 317);
+            this.buffGroupBox.Name = "buffGroupBox";
+            this.buffGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.buffGroupBox.Size = new System.Drawing.Size(287, 580);
+            this.buffGroupBox.TabIndex = 2;
+            this.buffGroupBox.TabStop = false;
+            this.buffGroupBox.Text = "Buff Rotation";
+            this.buffGroupBox.Visible = false;
+            // 
+            // buffLayout
+            // 
+            buffLayout.ColumnCount = 1;
+            buffLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            buffLayout.Controls.Add(this.autoBuffBox, 0, 0);
+            buffLayout.Controls.Add(this.autoBuffTime, 0, 1);
+            buffLayout.Controls.Add(this.autoBuffCD, 0, 2);
+            buffLayout.Controls.Add(this.autoBuffTree, 0, 3);
+            buffLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            buffLayout.Location = new System.Drawing.Point(8, 32);
+            buffLayout.Name = "buffLayout";
+            buffLayout.RowCount = 4;
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            buffLayout.Size = new System.Drawing.Size(271, 540);
+            buffLayout.TabIndex = 0;
+            // 
+            // followGroupBox
+            // 
+            this.followGroupBox.Controls.Add(followLayout);
+            this.followGroupBox.Enabled = false;
+            this.followGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.followGroupBox.Location = new System.Drawing.Point(3, 903);
+            this.followGroupBox.Name = "followGroupBox";
+            this.followGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.followGroupBox.Size = new System.Drawing.Size(287, 150);
+            this.followGroupBox.TabIndex = 3;
+            this.followGroupBox.TabStop = false;
+            this.followGroupBox.Text = "Follow + Keybinds";
+            this.followGroupBox.Visible = false;
+            // 
+            // followLayout
+            // 
+            followLayout.ColumnCount = 1;
+            followLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            followLayout.Controls.Add(this.autoFollowBox, 0, 0);
+            followLayout.Controls.Add(this.keybindsButt, 0, 1);
+            followLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            followLayout.Location = new System.Drawing.Point(8, 32);
+            followLayout.Name = "followLayout";
+            followLayout.RowCount = 2;
+            followLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            followLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            followLayout.Size = new System.Drawing.Size(271, 110);
+            followLayout.TabIndex = 0;
+            // 
+            // autoUseGroupBox
+            // 
+            this.autoUseGroupBox.Controls.Add(autoUseLayout);
+            this.autoUseGroupBox.Enabled = false;
+            this.autoUseGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.autoUseGroupBox.Location = new System.Drawing.Point(3, 1059);
+            this.autoUseGroupBox.Name = "autoUseGroupBox";
+            this.autoUseGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.autoUseGroupBox.Size = new System.Drawing.Size(287, 180);
+            this.autoUseGroupBox.TabIndex = 4;
+            this.autoUseGroupBox.TabStop = false;
+            this.autoUseGroupBox.Text = "Auto Use";
+            this.autoUseGroupBox.Visible = false;
+            // 
+            // autoUseLayout
+            // 
+            autoUseLayout.ColumnCount = 1;
+            autoUseLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            autoUseLayout.Controls.Add(this.autoUseTB, 0, 0);
+            autoUseLayout.Controls.Add(this.autoUseButt, 0, 1);
+            autoUseLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            autoUseLayout.Location = new System.Drawing.Point(8, 32);
+            autoUseLayout.Name = "autoUseLayout";
+            autoUseLayout.RowCount = 2;
+            autoUseLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            autoUseLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            autoUseLayout.Size = new System.Drawing.Size(271, 140);
+            autoUseLayout.TabIndex = 0;
+            // 
+            // browserContainer
+            // 
+            this.browserContainer.BackColor = System.Drawing.Color.Black;
+            this.browserContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserContainer.Location = new System.Drawing.Point(323, 3);
+            this.browserContainer.Name = "browserContainer";
+            this.browserContainer.Size = new System.Drawing.Size(1570, 1010);
+            this.browserContainer.TabIndex = 1;
             // 
             // FlyffWCForm
             // 
@@ -437,16 +696,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1896, 1016);
-            this.Controls.Add(this.autoUseButt);
-            this.Controls.Add(this.autoUseTB);
-            this.Controls.Add(this.keybindsButt);
-            this.Controls.Add(this.autoBuffTree);
-            this.Controls.Add(this.autoFollowBox);
-            this.Controls.Add(this.autoBuffBox);
-            this.Controls.Add(this.autoBuffCD);
-            this.Controls.Add(this.autoHealTime);
-            this.Controls.Add(this.autoBuffTime);
-            this.Controls.Add(this.autoHealBox);
+            this.Controls.Add(this.mainLayout);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -456,9 +706,23 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Flyff Universe Webclient";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.autoUseTB.ResumeLayout(false);
+            this.mainLayout.ResumeLayout(false);
+            this.controlPanel.ResumeLayout(false);
+            this.controlFlowLayout.ResumeLayout(false);
+            this.sessionGroupBox.ResumeLayout(false);
+            sessionLayout.ResumeLayout(false);
+            this.assistGroupBox.ResumeLayout(false);
+            assistLayout.ResumeLayout(false);
+            this.buffGroupBox.ResumeLayout(false);
+            buffLayout.ResumeLayout(false);
+            buffLayout.PerformLayout();
+            this.followGroupBox.ResumeLayout(false);
+            followLayout.ResumeLayout(false);
+            this.autoUseGroupBox.ResumeLayout(false);
+            autoUseLayout.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -476,6 +740,16 @@
         private System.Windows.Forms.CheckBox autoUseB;
         private System.Windows.Forms.CheckBox autoUseA;
         private System.Windows.Forms.Button autoUseButt;
+        private System.Windows.Forms.TableLayoutPanel mainLayout;
+        private System.Windows.Forms.Panel controlPanel;
+        private System.Windows.Forms.FlowLayoutPanel controlFlowLayout;
+        private System.Windows.Forms.GroupBox sessionGroupBox;
+        private System.Windows.Forms.GroupBox assistGroupBox;
+        private System.Windows.Forms.GroupBox buffGroupBox;
+        private System.Windows.Forms.GroupBox followGroupBox;
+        private System.Windows.Forms.GroupBox autoUseGroupBox;
+        private System.Windows.Forms.Panel browserContainer;
+        private System.Windows.Forms.Button reloadGameButton;
+        private System.Windows.Forms.Label automationStatusLabel;
     }
 }
-
