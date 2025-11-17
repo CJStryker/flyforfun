@@ -159,6 +159,36 @@ namespace HiddenUniverse_WebClient
             this.attackLayout.SuspendLayout();
             this.attackButtonPanel.SuspendLayout();
             this.futureModulePanel.SuspendLayout();
+            this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.controlPanel = new System.Windows.Forms.Panel();
+            this.controlFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.sessionGroupBox = new System.Windows.Forms.GroupBox();
+            this.reloadGameButton = new System.Windows.Forms.Button();
+            this.automationStatusLabel = new System.Windows.Forms.Label();
+            this.assistGroupBox = new System.Windows.Forms.GroupBox();
+            this.buffGroupBox = new System.Windows.Forms.GroupBox();
+            this.followGroupBox = new System.Windows.Forms.GroupBox();
+            this.autoUseGroupBox = new System.Windows.Forms.GroupBox();
+            this.browserContainer = new System.Windows.Forms.Panel();
+            sessionLayout = new System.Windows.Forms.TableLayoutPanel();
+            assistLayout = new System.Windows.Forms.TableLayoutPanel();
+            buffLayout = new System.Windows.Forms.TableLayoutPanel();
+            followLayout = new System.Windows.Forms.TableLayoutPanel();
+            autoUseLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.autoUseTB.SuspendLayout();
+            this.mainLayout.SuspendLayout();
+            this.controlPanel.SuspendLayout();
+            this.controlFlowLayout.SuspendLayout();
+            this.sessionGroupBox.SuspendLayout();
+            sessionLayout.SuspendLayout();
+            this.assistGroupBox.SuspendLayout();
+            assistLayout.SuspendLayout();
+            this.buffGroupBox.SuspendLayout();
+            buffLayout.SuspendLayout();
+            this.followGroupBox.SuspendLayout();
+            followLayout.SuspendLayout();
+            this.autoUseGroupBox.SuspendLayout();
+            autoUseLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoHealBox
@@ -997,6 +1027,7 @@ namespace HiddenUniverse_WebClient
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Flyff Universe Client";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.autoUseTB.ResumeLayout(false);
             this.rootLayout.ResumeLayout(false);
             this.headerPanel.ResumeLayout(false);
