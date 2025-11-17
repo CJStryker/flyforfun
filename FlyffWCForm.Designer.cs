@@ -92,6 +92,11 @@ namespace HiddenUniverse_WebClient
             treeNode31,
             treeNode32});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlyffWCForm));
+            System.Windows.Forms.TableLayoutPanel sessionLayout;
+            System.Windows.Forms.TableLayoutPanel assistLayout;
+            System.Windows.Forms.TableLayoutPanel buffLayout;
+            System.Windows.Forms.TableLayoutPanel followLayout;
+            System.Windows.Forms.TableLayoutPanel autoUseLayout;
             this.autoHealBox = new System.Windows.Forms.CheckBox();
             this.autoHealTime = new System.Windows.Forms.ComboBox();
             this.autoBuffBox = new System.Windows.Forms.CheckBox();
@@ -105,30 +110,49 @@ namespace HiddenUniverse_WebClient
             this.autoUseB = new System.Windows.Forms.CheckBox();
             this.autoUseA = new System.Windows.Forms.CheckBox();
             this.autoUseButt = new System.Windows.Forms.Button();
-            this.leftControlPanel = new System.Windows.Forms.Panel();
-            this.previewFeaturesLabel = new System.Windows.Forms.Label();
-            this.autoPathPreview = new System.Windows.Forms.CheckBox();
-            this.autoCombatPreview = new System.Windows.Forms.CheckBox();
-            this.autoUseHeaderLabel = new System.Windows.Forms.Label();
-            this.automationDescriptionLabel = new System.Windows.Forms.Label();
-            this.automationHeaderLabel = new System.Windows.Forms.Label();
-            this.browserHostPanel = new System.Windows.Forms.Panel();
+            this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.controlPanel = new System.Windows.Forms.Panel();
+            this.controlFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.sessionGroupBox = new System.Windows.Forms.GroupBox();
+            this.reloadGameButton = new System.Windows.Forms.Button();
+            this.automationStatusLabel = new System.Windows.Forms.Label();
+            this.assistGroupBox = new System.Windows.Forms.GroupBox();
+            this.buffGroupBox = new System.Windows.Forms.GroupBox();
+            this.followGroupBox = new System.Windows.Forms.GroupBox();
+            this.autoUseGroupBox = new System.Windows.Forms.GroupBox();
+            this.browserContainer = new System.Windows.Forms.Panel();
+            sessionLayout = new System.Windows.Forms.TableLayoutPanel();
+            assistLayout = new System.Windows.Forms.TableLayoutPanel();
+            buffLayout = new System.Windows.Forms.TableLayoutPanel();
+            followLayout = new System.Windows.Forms.TableLayoutPanel();
+            autoUseLayout = new System.Windows.Forms.TableLayoutPanel();
             this.autoUseTB.SuspendLayout();
-            this.leftControlPanel.SuspendLayout();
+            this.mainLayout.SuspendLayout();
+            this.controlPanel.SuspendLayout();
+            this.controlFlowLayout.SuspendLayout();
+            this.sessionGroupBox.SuspendLayout();
+            sessionLayout.SuspendLayout();
+            this.assistGroupBox.SuspendLayout();
+            assistLayout.SuspendLayout();
+            this.buffGroupBox.SuspendLayout();
+            buffLayout.SuspendLayout();
+            this.followGroupBox.SuspendLayout();
+            followLayout.SuspendLayout();
+            this.autoUseGroupBox.SuspendLayout();
+            autoUseLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoHealBox
             // 
             this.autoHealBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoHealBox.BackColor = System.Drawing.Color.Gray;
-            this.autoHealBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoHealBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoHealBox.Enabled = false;
             this.autoHealBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoHealBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoHealBox.Location = new System.Drawing.Point(20, 140);
-            this.autoHealBox.Margin = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.autoHealBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoHealBox.Location = new System.Drawing.Point(3, 3);
             this.autoHealBox.Name = "autoHealBox";
-            this.autoHealBox.Size = new System.Drawing.Size(380, 56);
+            this.autoHealBox.Size = new System.Drawing.Size(270, 53);
             this.autoHealBox.TabIndex = 0;
             this.autoHealBox.Text = "Auto Heal";
             this.autoHealBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -139,10 +163,10 @@ namespace HiddenUniverse_WebClient
             // autoHealTime
             // 
             this.autoHealTime.BackColor = System.Drawing.Color.PeachPuff;
-            this.autoHealTime.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoHealTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoHealTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.autoHealTime.Enabled = false;
-            this.autoHealTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoHealTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.autoHealTime.FormattingEnabled = true;
             this.autoHealTime.Items.AddRange(new object[] {
             "Every 1 seconds",
@@ -155,10 +179,9 @@ namespace HiddenUniverse_WebClient
             "Every 8 seconds",
             "Every 9 seconds",
             "Every 10 seconds"});
-            this.autoHealTime.Location = new System.Drawing.Point(20, 196);
-            this.autoHealTime.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoHealTime.Location = new System.Drawing.Point(3, 62);
             this.autoHealTime.Name = "autoHealTime";
-            this.autoHealTime.Size = new System.Drawing.Size(380, 47);
+            this.autoHealTime.Size = new System.Drawing.Size(270, 47);
             this.autoHealTime.TabIndex = 1;
             this.autoHealTime.Visible = false;
             this.autoHealTime.DropDown += new System.EventHandler(this.autoHealTime_DropDown);
@@ -169,14 +192,13 @@ namespace HiddenUniverse_WebClient
             // 
             this.autoBuffBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoBuffBox.BackColor = System.Drawing.Color.Gray;
-            this.autoBuffBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoBuffBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffBox.Enabled = false;
             this.autoBuffBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoBuffBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoBuffBox.Location = new System.Drawing.Point(20, 249);
-            this.autoBuffBox.Margin = new System.Windows.Forms.Padding(0, 16, 0, 0);
+            this.autoBuffBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoBuffBox.Location = new System.Drawing.Point(3, 3);
             this.autoBuffBox.Name = "autoBuffBox";
-            this.autoBuffBox.Size = new System.Drawing.Size(380, 56);
+            this.autoBuffBox.Size = new System.Drawing.Size(270, 51);
             this.autoBuffBox.TabIndex = 2;
             this.autoBuffBox.Text = "Auto Buff";
             this.autoBuffBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -188,14 +210,13 @@ namespace HiddenUniverse_WebClient
             // 
             this.autoFollowBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.autoFollowBox.BackColor = System.Drawing.Color.Gray;
-            this.autoFollowBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoFollowBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoFollowBox.Enabled = false;
             this.autoFollowBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoFollowBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoFollowBox.Location = new System.Drawing.Point(20, 705);
-            this.autoFollowBox.Margin = new System.Windows.Forms.Padding(0, 18, 0, 0);
+            this.autoFollowBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoFollowBox.Location = new System.Drawing.Point(3, 3);
             this.autoFollowBox.Name = "autoFollowBox";
-            this.autoFollowBox.Size = new System.Drawing.Size(380, 56);
+            this.autoFollowBox.Size = new System.Drawing.Size(270, 53);
             this.autoFollowBox.TabIndex = 4;
             this.autoFollowBox.Text = "Auto Follow";
             this.autoFollowBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -208,13 +229,12 @@ namespace HiddenUniverse_WebClient
             this.autoBuffTree.BackColor = System.Drawing.Color.PeachPuff;
             this.autoBuffTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.autoBuffTree.CheckBoxes = true;
-            this.autoBuffTree.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoBuffTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffTree.Enabled = false;
-            this.autoBuffTree.Font = new System.Drawing.Font("Franklin Gothic Medium", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffTree.Font = new System.Drawing.Font("Franklin Gothic Medium", 20.14286F);
             this.autoBuffTree.ForeColor = System.Drawing.Color.Black;
             this.autoBuffTree.FullRowSelect = true;
-            this.autoBuffTree.Location = new System.Drawing.Point(20, 410);
-            this.autoBuffTree.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoBuffTree.Location = new System.Drawing.Point(3, 176);
             this.autoBuffTree.Name = "autoBuffTree";
             treeNode1.Name = "Slot0";
             treeNode1.Text = "Slot 0";
@@ -287,7 +307,7 @@ namespace HiddenUniverse_WebClient
             treeNode22,
             treeNode33});
             this.autoBuffTree.Scrollable = false;
-            this.autoBuffTree.Size = new System.Drawing.Size(380, 280);
+            this.autoBuffTree.Size = new System.Drawing.Size(270, 358);
             this.autoBuffTree.TabIndex = 5;
             this.autoBuffTree.Visible = false;
             this.autoBuffTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.autoBuffTree_AfterCheck);
@@ -295,11 +315,11 @@ namespace HiddenUniverse_WebClient
             // autoBuffTime
             // 
             this.autoBuffTime.BackColor = System.Drawing.Color.PeachPuff;
-            this.autoBuffTime.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoBuffTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.autoBuffTime.Enabled = false;
             this.autoBuffTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.autoBuffTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.autoBuffTime.FormattingEnabled = true;
             this.autoBuffTime.Items.AddRange(new object[] {
             "Manual Buff",
@@ -312,10 +332,9 @@ namespace HiddenUniverse_WebClient
             "Every 15 minutes",
             "Every 17 minutes",
             "Every 20 minutes"});
-            this.autoBuffTime.Location = new System.Drawing.Point(20, 305);
-            this.autoBuffTime.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoBuffTime.Location = new System.Drawing.Point(3, 60);
             this.autoBuffTime.Name = "autoBuffTime";
-            this.autoBuffTime.Size = new System.Drawing.Size(380, 47);
+            this.autoBuffTime.Size = new System.Drawing.Size(270, 47);
             this.autoBuffTime.TabIndex = 6;
             this.autoBuffTime.Visible = false;
             this.autoBuffTime.DropDown += new System.EventHandler(this.autoBuffTime_DropDown);
@@ -325,15 +344,14 @@ namespace HiddenUniverse_WebClient
             // autoBuffCD
             // 
             this.autoBuffCD.BackColor = System.Drawing.Color.White;
-            this.autoBuffCD.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoBuffCD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoBuffCD.Enabled = false;
-            this.autoBuffCD.Font = new System.Drawing.Font("Franklin Gothic Medium", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoBuffCD.Font = new System.Drawing.Font("Franklin Gothic Medium", 18F);
             this.autoBuffCD.ForeColor = System.Drawing.Color.OrangeRed;
-            this.autoBuffCD.Location = new System.Drawing.Point(20, 358);
-            this.autoBuffCD.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoBuffCD.Location = new System.Drawing.Point(3, 113);
             this.autoBuffCD.Name = "autoBuffCD";
             this.autoBuffCD.ReadOnly = true;
-            this.autoBuffCD.Size = new System.Drawing.Size(380, 55);
+            this.autoBuffCD.Size = new System.Drawing.Size(270, 55);
             this.autoBuffCD.TabIndex = 7;
             this.autoBuffCD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.autoBuffCD.Visible = false;
@@ -342,13 +360,12 @@ namespace HiddenUniverse_WebClient
             // keybindsButt
             // 
             this.keybindsButt.BackColor = System.Drawing.Color.PeachPuff;
-            this.keybindsButt.Dock = System.Windows.Forms.DockStyle.Top;
+            this.keybindsButt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.keybindsButt.Enabled = false;
-            this.keybindsButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.keybindsButt.Location = new System.Drawing.Point(20, 761);
-            this.keybindsButt.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.keybindsButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.keybindsButt.Location = new System.Drawing.Point(3, 62);
             this.keybindsButt.Name = "keybindsButt";
-            this.keybindsButt.Size = new System.Drawing.Size(380, 53);
+            this.keybindsButt.Size = new System.Drawing.Size(270, 49);
             this.keybindsButt.TabIndex = 8;
             this.keybindsButt.Text = "Keybinds";
             this.keybindsButt.UseVisualStyleBackColor = false;
@@ -367,12 +384,12 @@ namespace HiddenUniverse_WebClient
             this.autoUseTB.Controls.Add(this.autoUseA, 0, 0);
             this.autoUseTB.Dock = System.Windows.Forms.DockStyle.Top;
             this.autoUseTB.Enabled = false;
-            this.autoUseTB.Location = new System.Drawing.Point(20, 877);
-            this.autoUseTB.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoUseTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.autoUseTB.Location = new System.Drawing.Point(3, 3);
             this.autoUseTB.Name = "autoUseTB";
             this.autoUseTB.RowCount = 1;
             this.autoUseTB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.autoUseTB.Size = new System.Drawing.Size(380, 54);
+            this.autoUseTB.Size = new System.Drawing.Size(270, 54);
             this.autoUseTB.TabIndex = 10;
             this.autoUseTB.Visible = false;
             // 
@@ -384,10 +401,10 @@ namespace HiddenUniverse_WebClient
             this.autoUseC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseC.Enabled = false;
             this.autoUseC.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseC.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseC.Location = new System.Drawing.Point(257, 3);
+            this.autoUseC.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoUseC.Location = new System.Drawing.Point(181, 3);
             this.autoUseC.Name = "autoUseC";
-            this.autoUseC.Size = new System.Drawing.Size(120, 48);
+            this.autoUseC.Size = new System.Drawing.Size(86, 48);
             this.autoUseC.TabIndex = 13;
             this.autoUseC.Text = "C";
             this.autoUseC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -403,10 +420,10 @@ namespace HiddenUniverse_WebClient
             this.autoUseB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseB.Enabled = false;
             this.autoUseB.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseB.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseB.Location = new System.Drawing.Point(130, 3);
+            this.autoUseB.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
+            this.autoUseB.Location = new System.Drawing.Point(92, 3);
             this.autoUseB.Name = "autoUseB";
-            this.autoUseB.Size = new System.Drawing.Size(121, 48);
+            this.autoUseB.Size = new System.Drawing.Size(83, 48);
             this.autoUseB.TabIndex = 12;
             this.autoUseB.Text = "B";
             this.autoUseB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -422,10 +439,10 @@ namespace HiddenUniverse_WebClient
             this.autoUseA.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseA.Enabled = false;
             this.autoUseA.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.autoUseA.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoUseA.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F);
             this.autoUseA.Location = new System.Drawing.Point(3, 3);
             this.autoUseA.Name = "autoUseA";
-            this.autoUseA.Size = new System.Drawing.Size(121, 48);
+            this.autoUseA.Size = new System.Drawing.Size(83, 48);
             this.autoUseA.TabIndex = 11;
             this.autoUseA.Text = "A";
             this.autoUseA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -436,149 +453,249 @@ namespace HiddenUniverse_WebClient
             // autoUseButt
             // 
             this.autoUseButt.BackColor = System.Drawing.Color.PeachPuff;
-            this.autoUseButt.Dock = System.Windows.Forms.DockStyle.Top;
+            this.autoUseButt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoUseButt.Enabled = false;
-            this.autoUseButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseButt.Location = new System.Drawing.Point(20, 931);
-            this.autoUseButt.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.autoUseButt.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F);
+            this.autoUseButt.Location = new System.Drawing.Point(3, 63);
             this.autoUseButt.Name = "autoUseButt";
-            this.autoUseButt.Size = new System.Drawing.Size(380, 80);
+            this.autoUseButt.Size = new System.Drawing.Size(270, 71);
             this.autoUseButt.TabIndex = 11;
             this.autoUseButt.Text = "Auto Use Settings";
             this.autoUseButt.UseVisualStyleBackColor = false;
             this.autoUseButt.Visible = false;
             this.autoUseButt.Click += new System.EventHandler(this.autoUseButt_Click);
             // 
-            // leftControlPanel
+            // mainLayout
             // 
-            this.leftControlPanel.AutoScroll = true;
-            this.leftControlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(19)))), ((int)(((byte)(29)))));
-            this.leftControlPanel.Controls.Add(this.autoCombatPreview);
-            this.leftControlPanel.Controls.Add(this.autoPathPreview);
-            this.leftControlPanel.Controls.Add(this.previewFeaturesLabel);
-            this.leftControlPanel.Controls.Add(this.autoUseButt);
-            this.leftControlPanel.Controls.Add(this.autoUseTB);
-            this.leftControlPanel.Controls.Add(this.autoUseHeaderLabel);
-            this.leftControlPanel.Controls.Add(this.keybindsButt);
-            this.leftControlPanel.Controls.Add(this.autoFollowBox);
-            this.leftControlPanel.Controls.Add(this.autoBuffTree);
-            this.leftControlPanel.Controls.Add(this.autoBuffCD);
-            this.leftControlPanel.Controls.Add(this.autoBuffTime);
-            this.leftControlPanel.Controls.Add(this.autoBuffBox);
-            this.leftControlPanel.Controls.Add(this.autoHealTime);
-            this.leftControlPanel.Controls.Add(this.autoHealBox);
-            this.leftControlPanel.Controls.Add(this.automationDescriptionLabel);
-            this.leftControlPanel.Controls.Add(this.automationHeaderLabel);
-            this.leftControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.leftControlPanel.ForeColor = System.Drawing.Color.White;
-            this.leftControlPanel.Location = new System.Drawing.Point(0, 0);
-            this.leftControlPanel.Name = "leftControlPanel";
-            this.leftControlPanel.Padding = new System.Windows.Forms.Padding(20, 20, 20, 30);
-            this.leftControlPanel.Size = new System.Drawing.Size(420, 1016);
-            this.leftControlPanel.TabIndex = 12;
+            this.mainLayout.ColumnCount = 2;
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 320F));
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayout.Controls.Add(this.controlPanel, 0, 0);
+            this.mainLayout.Controls.Add(this.browserContainer, 1, 0);
+            this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainLayout.Location = new System.Drawing.Point(0, 0);
+            this.mainLayout.Name = "mainLayout";
+            this.mainLayout.RowCount = 1;
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayout.Size = new System.Drawing.Size(1896, 1016);
+            this.mainLayout.TabIndex = 12;
             // 
-            // previewFeaturesLabel
+            // controlPanel
             // 
-            this.previewFeaturesLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.previewFeaturesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.previewFeaturesLabel.ForeColor = System.Drawing.Color.Gainsboro;
-            this.previewFeaturesLabel.Location = new System.Drawing.Point(20, 793);
-            this.previewFeaturesLabel.Margin = new System.Windows.Forms.Padding(0, 20, 0, 0);
-            this.previewFeaturesLabel.Name = "previewFeaturesLabel";
-            this.previewFeaturesLabel.Padding = new System.Windows.Forms.Padding(0, 20, 0, 6);
-            this.previewFeaturesLabel.Size = new System.Drawing.Size(380, 60);
-            this.previewFeaturesLabel.TabIndex = 15;
-            this.previewFeaturesLabel.Text = "Sneak peek: upcoming automation modules for combat rotations and autopathing.";
+            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.controlPanel.Controls.Add(this.controlFlowLayout);
+            this.controlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlPanel.Location = new System.Drawing.Point(3, 3);
+            this.controlPanel.Name = "controlPanel";
+            this.controlPanel.Padding = new System.Windows.Forms.Padding(6);
+            this.controlPanel.Size = new System.Drawing.Size(314, 1010);
+            this.controlPanel.TabIndex = 0;
             // 
-            // autoPathPreview
+            // controlFlowLayout
             // 
-            this.autoPathPreview.Appearance = System.Windows.Forms.Appearance.Button;
-            this.autoPathPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
-            this.autoPathPreview.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.autoPathPreview.Enabled = false;
-            this.autoPathPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.autoPathPreview.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoPathPreview.Location = new System.Drawing.Point(20, 853);
-            this.autoPathPreview.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.autoPathPreview.Name = "autoPathPreview";
-            this.autoPathPreview.Size = new System.Drawing.Size(380, 53);
-            this.autoPathPreview.TabIndex = 14;
-            this.autoPathPreview.Text = "Auto Path (in progress)";
-            this.autoPathPreview.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.autoPathPreview.UseVisualStyleBackColor = false;
+            this.controlFlowLayout.AutoScroll = true;
+            this.controlFlowLayout.Controls.Add(this.sessionGroupBox);
+            this.controlFlowLayout.Controls.Add(this.assistGroupBox);
+            this.controlFlowLayout.Controls.Add(this.buffGroupBox);
+            this.controlFlowLayout.Controls.Add(this.followGroupBox);
+            this.controlFlowLayout.Controls.Add(this.autoUseGroupBox);
+            this.controlFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.controlFlowLayout.Location = new System.Drawing.Point(6, 6);
+            this.controlFlowLayout.Name = "controlFlowLayout";
+            this.controlFlowLayout.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
+            this.controlFlowLayout.Size = new System.Drawing.Size(302, 998);
+            this.controlFlowLayout.TabIndex = 0;
+            this.controlFlowLayout.WrapContents = false;
             // 
-            // autoCombatPreview
+            // sessionGroupBox
             // 
-            this.autoCombatPreview.Appearance = System.Windows.Forms.Appearance.Button;
-            this.autoCombatPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
-            this.autoCombatPreview.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.autoCombatPreview.Enabled = false;
-            this.autoCombatPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.autoCombatPreview.Font = new System.Drawing.Font("Franklin Gothic Medium", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoCombatPreview.Location = new System.Drawing.Point(20, 906);
-            this.autoCombatPreview.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            this.autoCombatPreview.Name = "autoCombatPreview";
-            this.autoCombatPreview.Size = new System.Drawing.Size(380, 53);
-            this.autoCombatPreview.TabIndex = 13;
-            this.autoCombatPreview.Text = "Auto Combat (in progress)";
-            this.autoCombatPreview.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.autoCombatPreview.UseVisualStyleBackColor = false;
+            this.sessionGroupBox.Controls.Add(sessionLayout);
+            this.sessionGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.sessionGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.sessionGroupBox.Name = "sessionGroupBox";
+            this.sessionGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.sessionGroupBox.Size = new System.Drawing.Size(287, 150);
+            this.sessionGroupBox.TabIndex = 0;
+            this.sessionGroupBox.TabStop = false;
+            this.sessionGroupBox.Text = "Client";
             // 
-            // autoUseHeaderLabel
+            // sessionLayout
             // 
-            this.autoUseHeaderLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.autoUseHeaderLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.autoUseHeaderLabel.ForeColor = System.Drawing.Color.Gainsboro;
-            this.autoUseHeaderLabel.Location = new System.Drawing.Point(20, 814);
-            this.autoUseHeaderLabel.Margin = new System.Windows.Forms.Padding(0, 14, 0, 0);
-            this.autoUseHeaderLabel.Name = "autoUseHeaderLabel";
-            this.autoUseHeaderLabel.Padding = new System.Windows.Forms.Padding(0, 12, 0, 4);
-            this.autoUseHeaderLabel.Size = new System.Drawing.Size(380, 63);
-            this.autoUseHeaderLabel.TabIndex = 12;
-            this.autoUseHeaderLabel.Text = "Auto Use Modules";
-            this.autoUseHeaderLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.autoUseHeaderLabel.Visible = false;
+            sessionLayout.ColumnCount = 1;
+            sessionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            sessionLayout.Controls.Add(this.reloadGameButton, 0, 0);
+            sessionLayout.Controls.Add(this.automationStatusLabel, 0, 1);
+            sessionLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            sessionLayout.Location = new System.Drawing.Point(8, 32);
+            sessionLayout.Name = "sessionLayout";
+            sessionLayout.RowCount = 2;
+            sessionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            sessionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            sessionLayout.Size = new System.Drawing.Size(271, 110);
+            sessionLayout.TabIndex = 0;
             // 
-            // automationDescriptionLabel
+            // reloadGameButton
             // 
-            this.automationDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.automationDescriptionLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.automationDescriptionLabel.ForeColor = System.Drawing.Color.Gainsboro;
-            this.automationDescriptionLabel.Location = new System.Drawing.Point(20, 80);
-            this.automationDescriptionLabel.Name = "automationDescriptionLabel";
-            this.automationDescriptionLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.automationDescriptionLabel.Size = new System.Drawing.Size(380, 60);
-            this.automationDescriptionLabel.TabIndex = 1;
-            this.automationDescriptionLabel.Text = "Toggle support tools, configure timers, and preview future battle automation.";
+            this.reloadGameButton.BackColor = System.Drawing.Color.PeachPuff;
+            this.reloadGameButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reloadGameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.reloadGameButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.14286F);
+            this.reloadGameButton.Location = new System.Drawing.Point(3, 3);
+            this.reloadGameButton.Name = "reloadGameButton";
+            this.reloadGameButton.Size = new System.Drawing.Size(265, 54);
+            this.reloadGameButton.TabIndex = 0;
+            this.reloadGameButton.Text = "Reload Client";
+            this.reloadGameButton.UseVisualStyleBackColor = false;
+            this.reloadGameButton.Click += new System.EventHandler(this.reloadGameButton_Click);
             // 
-            // automationHeaderLabel
+            // automationStatusLabel
             // 
-            this.automationHeaderLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.automationHeaderLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.automationHeaderLabel.ForeColor = System.Drawing.Color.White;
-            this.automationHeaderLabel.Location = new System.Drawing.Point(20, 20);
-            this.automationHeaderLabel.Name = "automationHeaderLabel";
-            this.automationHeaderLabel.Size = new System.Drawing.Size(380, 60);
-            this.automationHeaderLabel.TabIndex = 0;
-            this.automationHeaderLabel.Text = "Automation Console";
-            this.automationHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.automationStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.automationStatusLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 10F);
+            this.automationStatusLabel.ForeColor = System.Drawing.Color.Gainsboro;
+            this.automationStatusLabel.Location = new System.Drawing.Point(3, 60);
+            this.automationStatusLabel.Name = "automationStatusLabel";
+            this.automationStatusLabel.Size = new System.Drawing.Size(265, 50);
+            this.automationStatusLabel.TabIndex = 1;
+            this.automationStatusLabel.Text = "Automation status: Idle";
+            this.automationStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // browserHostPanel
+            // assistGroupBox
             // 
-            this.browserHostPanel.BackColor = System.Drawing.Color.Black;
-            this.browserHostPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browserHostPanel.Location = new System.Drawing.Point(420, 0);
-            this.browserHostPanel.Name = "browserHostPanel";
-            this.browserHostPanel.Size = new System.Drawing.Size(1476, 1016);
-            this.browserHostPanel.TabIndex = 13;
+            this.assistGroupBox.Controls.Add(assistLayout);
+            this.assistGroupBox.Enabled = false;
+            this.assistGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.assistGroupBox.Location = new System.Drawing.Point(3, 159);
+            this.assistGroupBox.Name = "assistGroupBox";
+            this.assistGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.assistGroupBox.Size = new System.Drawing.Size(287, 152);
+            this.assistGroupBox.TabIndex = 1;
+            this.assistGroupBox.TabStop = false;
+            this.assistGroupBox.Text = "Assist Mode";
+            this.assistGroupBox.Visible = false;
+            // 
+            // assistLayout
+            // 
+            assistLayout.ColumnCount = 1;
+            assistLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            assistLayout.Controls.Add(this.autoHealBox, 0, 0);
+            assistLayout.Controls.Add(this.autoHealTime, 0, 1);
+            assistLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            assistLayout.Location = new System.Drawing.Point(8, 32);
+            assistLayout.Name = "assistLayout";
+            assistLayout.RowCount = 2;
+            assistLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            assistLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            assistLayout.Size = new System.Drawing.Size(271, 112);
+            assistLayout.TabIndex = 0;
+            // 
+            // buffGroupBox
+            // 
+            this.buffGroupBox.Controls.Add(buffLayout);
+            this.buffGroupBox.Enabled = false;
+            this.buffGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buffGroupBox.Location = new System.Drawing.Point(3, 317);
+            this.buffGroupBox.Name = "buffGroupBox";
+            this.buffGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.buffGroupBox.Size = new System.Drawing.Size(287, 580);
+            this.buffGroupBox.TabIndex = 2;
+            this.buffGroupBox.TabStop = false;
+            this.buffGroupBox.Text = "Buff Rotation";
+            this.buffGroupBox.Visible = false;
+            // 
+            // buffLayout
+            // 
+            buffLayout.ColumnCount = 1;
+            buffLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            buffLayout.Controls.Add(this.autoBuffBox, 0, 0);
+            buffLayout.Controls.Add(this.autoBuffTime, 0, 1);
+            buffLayout.Controls.Add(this.autoBuffCD, 0, 2);
+            buffLayout.Controls.Add(this.autoBuffTree, 0, 3);
+            buffLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            buffLayout.Location = new System.Drawing.Point(8, 32);
+            buffLayout.Name = "buffLayout";
+            buffLayout.RowCount = 4;
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            buffLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            buffLayout.Size = new System.Drawing.Size(271, 540);
+            buffLayout.TabIndex = 0;
+            // 
+            // followGroupBox
+            // 
+            this.followGroupBox.Controls.Add(followLayout);
+            this.followGroupBox.Enabled = false;
+            this.followGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.followGroupBox.Location = new System.Drawing.Point(3, 903);
+            this.followGroupBox.Name = "followGroupBox";
+            this.followGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.followGroupBox.Size = new System.Drawing.Size(287, 150);
+            this.followGroupBox.TabIndex = 3;
+            this.followGroupBox.TabStop = false;
+            this.followGroupBox.Text = "Follow + Keybinds";
+            this.followGroupBox.Visible = false;
+            // 
+            // followLayout
+            // 
+            followLayout.ColumnCount = 1;
+            followLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            followLayout.Controls.Add(this.autoFollowBox, 0, 0);
+            followLayout.Controls.Add(this.keybindsButt, 0, 1);
+            followLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            followLayout.Location = new System.Drawing.Point(8, 32);
+            followLayout.Name = "followLayout";
+            followLayout.RowCount = 2;
+            followLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            followLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            followLayout.Size = new System.Drawing.Size(271, 110);
+            followLayout.TabIndex = 0;
+            // 
+            // autoUseGroupBox
+            // 
+            this.autoUseGroupBox.Controls.Add(autoUseLayout);
+            this.autoUseGroupBox.Enabled = false;
+            this.autoUseGroupBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.autoUseGroupBox.Location = new System.Drawing.Point(3, 1059);
+            this.autoUseGroupBox.Name = "autoUseGroupBox";
+            this.autoUseGroupBox.Padding = new System.Windows.Forms.Padding(8);
+            this.autoUseGroupBox.Size = new System.Drawing.Size(287, 180);
+            this.autoUseGroupBox.TabIndex = 4;
+            this.autoUseGroupBox.TabStop = false;
+            this.autoUseGroupBox.Text = "Auto Use";
+            this.autoUseGroupBox.Visible = false;
+            // 
+            // autoUseLayout
+            // 
+            autoUseLayout.ColumnCount = 1;
+            autoUseLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            autoUseLayout.Controls.Add(this.autoUseTB, 0, 0);
+            autoUseLayout.Controls.Add(this.autoUseButt, 0, 1);
+            autoUseLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            autoUseLayout.Location = new System.Drawing.Point(8, 32);
+            autoUseLayout.Name = "autoUseLayout";
+            autoUseLayout.RowCount = 2;
+            autoUseLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            autoUseLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            autoUseLayout.Size = new System.Drawing.Size(271, 140);
+            autoUseLayout.TabIndex = 0;
+            // 
+            // browserContainer
+            // 
+            this.browserContainer.BackColor = System.Drawing.Color.Black;
+            this.browserContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserContainer.Location = new System.Drawing.Point(323, 3);
+            this.browserContainer.Name = "browserContainer";
+            this.browserContainer.Size = new System.Drawing.Size(1570, 1010);
+            this.browserContainer.TabIndex = 1;
             // 
             // FlyffWCForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1896, 1016);
-            this.Controls.Add(this.browserHostPanel);
-            this.Controls.Add(this.leftControlPanel);
+            this.Controls.Add(this.mainLayout);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -587,8 +704,22 @@ namespace HiddenUniverse_WebClient
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Flyff Universe Client";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.autoUseTB.ResumeLayout(false);
-            this.leftControlPanel.ResumeLayout(false);
+            this.mainLayout.ResumeLayout(false);
+            this.controlPanel.ResumeLayout(false);
+            this.controlFlowLayout.ResumeLayout(false);
+            this.sessionGroupBox.ResumeLayout(false);
+            sessionLayout.ResumeLayout(false);
+            this.assistGroupBox.ResumeLayout(false);
+            assistLayout.ResumeLayout(false);
+            this.buffGroupBox.ResumeLayout(false);
+            buffLayout.ResumeLayout(false);
+            buffLayout.PerformLayout();
+            this.followGroupBox.ResumeLayout(false);
+            followLayout.ResumeLayout(false);
+            this.autoUseGroupBox.ResumeLayout(false);
+            autoUseLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -607,13 +738,16 @@ namespace HiddenUniverse_WebClient
         private System.Windows.Forms.CheckBox autoUseB;
         private System.Windows.Forms.CheckBox autoUseA;
         private System.Windows.Forms.Button autoUseButt;
-        private System.Windows.Forms.Panel leftControlPanel;
-        private System.Windows.Forms.Panel browserHostPanel;
-        private System.Windows.Forms.Label automationHeaderLabel;
-        private System.Windows.Forms.Label automationDescriptionLabel;
-        private System.Windows.Forms.Label autoUseHeaderLabel;
-        private System.Windows.Forms.Label previewFeaturesLabel;
-        private System.Windows.Forms.CheckBox autoPathPreview;
-        private System.Windows.Forms.CheckBox autoCombatPreview;
+        private System.Windows.Forms.TableLayoutPanel mainLayout;
+        private System.Windows.Forms.Panel controlPanel;
+        private System.Windows.Forms.FlowLayoutPanel controlFlowLayout;
+        private System.Windows.Forms.GroupBox sessionGroupBox;
+        private System.Windows.Forms.GroupBox assistGroupBox;
+        private System.Windows.Forms.GroupBox buffGroupBox;
+        private System.Windows.Forms.GroupBox followGroupBox;
+        private System.Windows.Forms.GroupBox autoUseGroupBox;
+        private System.Windows.Forms.Panel browserContainer;
+        private System.Windows.Forms.Button reloadGameButton;
+        private System.Windows.Forms.Label automationStatusLabel;
     }
 }

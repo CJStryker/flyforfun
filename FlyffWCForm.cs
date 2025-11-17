@@ -24,6 +24,7 @@ namespace HiddenUniverse_WebClient
         private AutoUseTimer autoUseTimerA = new AutoUseTimer();
         private AutoUseTimer autoUseTimerB = new AutoUseTimer();
         private AutoUseTimer autoUseTimerC = new AutoUseTimer();
+        private const string FlyffGameUrl = "https://universe.flyff.com/play";
 
         // Configuration Variables
         bool assistMode = false;
@@ -59,6 +60,10 @@ namespace HiddenUniverse_WebClient
         public void EnableAssistMode()
         {
             assistMode = true;
+            assistGroupBox.Enabled = true;
+            buffGroupBox.Enabled = true;
+            assistGroupBox.Visible = true;
+            buffGroupBox.Visible = true;
             autoHealBox.Enabled = true;
             autoHealBox.Visible = true;
             autoBuffBox.Visible = true;
@@ -66,32 +71,57 @@ namespace HiddenUniverse_WebClient
             autoBuffTree.Visible = true;
             autoBuffTree.Enabled = true;
             EnableAutoFollow();
+            UpdateAutomationStatus("Assist mode ready");
         }
         public void EnableAutoFollow()
         {
+            followGroupBox.Enabled = true;
+            followGroupBox.Visible = true;
             autoFollowBox.Visible = true;
             autoFollowBox.Enabled = true;
             keybindsButt.Visible = keybindsButt.Enabled = true;
             SaveManager.Instance.LoadKeybindsConfig();
+            UpdateAutomationStatus("Auto follow ready");
         }
         public void EnableAutoUse()
         {
+            autoUseGroupBox.Visible = true;
+            autoUseGroupBox.Enabled = true;
             autoUseTB.Visible = autoUseTB.Enabled = autoUseA.Visible = autoUseA.Enabled = autoUseB.Visible = autoUseB.Enabled = autoUseC.Visible = autoUseC.Enabled = autoUseButt.Visible = autoUseButt.Enabled = true;
-            autoUseHeaderLabel.Visible = true;
+            UpdateAutomationStatus("Auto use configuration available");
         }
         public void InitializeChromium()
         {
-            CefSettings settings = new CefSettings();
-            Cef.EnableHighDPISupport();
-            settings.CachePath = ArgumentManager.profilePath;
-            settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
-            Cef.Initialize(settings);
-            chromeBrowser = new ChromiumWebBrowser("https://universe.flyff.com/play");
-            browserHostPanel.Controls.Add(chromeBrowser);
+            if (!Cef.IsInitialized)
+            {
+                CefSettings settings = new CefSettings();
+                Cef.EnableHighDPISupport();
+                settings.CachePath = ArgumentManager.profilePath;
+                settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
+                Cef.Initialize(settings);
+            }
+            chromeBrowser = new ChromiumWebBrowser(FlyffGameUrl);
+            browserContainer.Controls.Clear();
+            browserContainer.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
+            chromeBrowser.BringToFront();
             if (autoUseTB.Enabled) {
                 chromeBrowser.JavascriptMessageReceived += chromeBrowser_SetMousePos;
                 chromeBrowser.FrameLoadEnd += chromeBrowser_GetMousePosOnClick;
+            }
+            UpdateAutomationStatus("Client ready");
+        }
+        private void reloadGameButton_Click(object sender, EventArgs e)
+        {
+            if (chromeBrowser != null && chromeBrowser.IsBrowserInitialized)
+            {
+                chromeBrowser.Load(FlyffGameUrl);
+                UpdateAutomationStatus("Reloading client...");
+            }
+            else
+            {
+                InitializeChromium();
+                UpdateAutomationStatus("Launching client...");
             }
         }
         private void Form1_Shown(Object sender, EventArgs e)
@@ -110,12 +140,14 @@ namespace HiddenUniverse_WebClient
                 if (autoHealSelectedIndex == -1) { autoHealTime.SelectedIndex = 2; } else { autoHealTime.SelectedIndex = autoHealSelectedIndex; }
                 if (autoHealerTimer.Timer == null) { autoHealerTimer.InitTimer(); }
                 else if (autoHealerTimer.Timer != null && !autoHealerTimer.Timer.Enabled) { autoHealerTimer.Timer.Interval = autoHealerTimer.autoHealInterval * 1000; autoHealerTimer.Timer.Start(); }
+                UpdateAutomationStatus("Auto Heal running");
             }
             else { autoHealBox.BackColor = Color.Gray;
                 autoHealTime.Enabled = false;
                 autoHealTime.Visible = false;
                 autoHealTime.BackColor = Color.Gray;
                 autoHealerTimer.Timer.Stop();
+                UpdateAutomationStatus("Auto Heal paused");
             }
         }
         private void autoHealTime_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,6 +167,7 @@ namespace HiddenUniverse_WebClient
                     autoHealerTimer.Timer.Interval = autoHealerTimer.autoHealInterval * 1000; // in miliseconds
                     autoHealerTimer.Timer.Start();
                 }
+                UpdateAutomationStatus($"Auto Heal interval set to {interval}s");
             }
         }
         private void autoHealTime_DropDown(object sender, EventArgs e)
@@ -223,6 +256,7 @@ namespace HiddenUniverse_WebClient
             if (autoBuffTimer.DelaybbTimer == null) { autoBuffTimer.InitDelaybbTimer(); }
             else if (autoBuffTimer.DelaybbTimer != null && autoBuffTimer.DelaybbTimer.Enabled) { autoBuffTimer.DelaybbTimer.Stop(); autoBuffTimer.currentBuffIndex = 0; }
             else if (autoBuffTimer.DelaybbTimer != null && !autoBuffTimer.DelaybbTimer.Enabled) { autoBuffTimer.currentBuffIndex = 0; autoBuffTimer.DelaybbTimer.Start(); }
+            UpdateAutomationStatus("Auto Buff rotation initiated");
         }
         private void autoBuffTime_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -237,17 +271,19 @@ namespace HiddenUniverse_WebClient
                 }
                 else if (autoBuffTimer.Timer != null && autoBuffTimer.Timer.Enabled) { 
                     autoBuffTimer.autoBuffInterval = interval * 60000; }
-                else if (autoBuffTimer.Timer != null && !autoBuffTimer.Timer.Enabled) { 
-                    autoBuffTimer.autoBuffInterval = interval * 60000; 
+                else if (autoBuffTimer.Timer != null && !autoBuffTimer.Timer.Enabled) {
+                    autoBuffTimer.autoBuffInterval = interval * 60000;
                     autoBuffTimer.Timer.Start();
                     autoBuffTimer.CDTimer.Start();
                 }
                 autoBuffCD.Visible = true;
+                UpdateAutomationStatus($"Auto Buff timer set to every {interval} minutes");
             }
             else
             {
                 if (autoBuffTimer.Timer != null && autoBuffTimer.Timer.Enabled) { autoBuffTimer.Timer.Stop(); autoBuffTimer.CDTimer.Stop();  }
                 autoBuffCD.Visible = false;
+                UpdateAutomationStatus("Manual buff mode active");
             }
         }
         public void autoBuffTreeCheckItem (string[] config)
@@ -294,11 +330,13 @@ namespace HiddenUniverse_WebClient
                     autoFollowTimer.InitTimer();
                 }
                 else { autoFollowTimer.Timer.Start(); }
+                UpdateAutomationStatus("Auto Follow active");
             }
             else if (!autoFollowBox.Checked)
             {
                 autoFollowBox.BackColor = Color.Gray;
                 if (autoFollowTimer.Timer != null) { autoFollowTimer.Timer.Stop(); }
+                UpdateAutomationStatus("Auto Follow paused");
             }
         }
 
@@ -393,12 +431,14 @@ namespace HiddenUniverse_WebClient
                     autoUseTimerA.interval = autoUseTimerA.Timer.Interval = autoUseIntervalA;
                     autoUseTimerA.Timer.Start();
                 }
+                UpdateAutomationStatus("Auto Use A active");
             }
             else
             {
                 autoUseA.BackColor = Color.Gray;
                 autoUsePosA = default(Point);
                 if (autoUseTimerA.Timer != null && autoUseTimerA.Timer.Enabled) { autoUseTimerA.Timer.Stop(); }
+                UpdateAutomationStatus("Auto Use A paused");
             }
         }
         private void autoUseB_CheckStateChanged(object sender, EventArgs e)
@@ -421,12 +461,14 @@ namespace HiddenUniverse_WebClient
                     autoUseTimerB.interval = autoUseTimerB.Timer.Interval = autoUseIntervalB;
                     autoUseTimerB.Timer.Start();
                 }
+                UpdateAutomationStatus("Auto Use B active");
             }
             else
             {
                 autoUseB.BackColor = Color.Gray;
                 autoUsePosB = default(Point);
                 if (autoUseTimerB.Timer != null && autoUseTimerB.Timer.Enabled) { autoUseTimerB.Timer.Stop(); }
+                UpdateAutomationStatus("Auto Use B paused");
             }
         }
         private void autoUseC_CheckStateChanged(object sender, EventArgs e)
@@ -449,12 +491,14 @@ namespace HiddenUniverse_WebClient
                     autoUseTimerC.interval = autoUseTimerC.Timer.Interval = autoUseIntervalC;
                     autoUseTimerC.Timer.Start();
                 }
+                UpdateAutomationStatus("Auto Use C active");
             }
             else
             {
                 autoUseC.BackColor = Color.Gray;
                 autoUsePosC = default(Point);
                 if (autoUseTimerC.Timer != null && autoUseTimerC.Timer.Enabled) { autoUseTimerC.Timer.Stop(); }
+                UpdateAutomationStatus("Auto Use C paused");
             }
         }
         internal void SetAutoUseA(int interval)
@@ -556,6 +600,19 @@ namespace HiddenUniverse_WebClient
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Cef.Shutdown();
+        }
+        private void UpdateAutomationStatus(string statusMessage)
+        {
+            if (automationStatusLabel == null) { return; }
+            Action updateAction = () => automationStatusLabel.Text = $"Automation status: {statusMessage}";
+            if (automationStatusLabel.InvokeRequired)
+            {
+                automationStatusLabel.Invoke(updateAction);
+            }
+            else
+            {
+                updateAction();
+            }
         }
     }
 }

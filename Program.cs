@@ -16,6 +16,7 @@ namespace HiddenUniverse_WebClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // Continue to host the redesigned UI with WinForms' FlyffWCForm as the root window.
             Application.Run(new FlyffWCForm());
         }
 
