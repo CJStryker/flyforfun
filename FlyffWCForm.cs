@@ -42,6 +42,7 @@ namespace HiddenUniverse_WebClient
         {
             if (_instance == null) { _instance = this; }
             InitializeComponent();
+            PrimeCommandSelectors();
             CheckForUpdates();
             SetArguments();
         }
@@ -55,6 +56,21 @@ namespace HiddenUniverse_WebClient
             ArgumentManager.Instance.InitializeArguments();
             if (assistMode) { selectedBuffSlots = new List<string>(); SaveManager.Instance.LoadAssistfsConfig(); }
             InitializeChromium();
+        }
+        private void PrimeCommandSelectors()
+        {
+            if (inventoryTaskbarSelector.Items.Count > 0) { inventoryTaskbarSelector.SelectedIndex = 0; }
+            if (inventorySlotSelector.Items.Count > 0) { inventorySlotSelector.SelectedIndex = 0; }
+            if (attackTaskbarSelector.Items.Count > 0) { attackTaskbarSelector.SelectedIndex = 0; }
+            if (attackSlotSelector.Items.Count > 0) { attackSlotSelector.SelectedIndex = 0; }
+            if (inventoryQuickList.Items.Count > 0)
+            {
+                inventoryQuickList.Items[0].Tag = Tuple.Create(0, 1);
+            }
+            if (inventoryQuickList.Items.Count > 1)
+            {
+                inventoryQuickList.Items[1].Tag = Tuple.Create(1, 4);
+            }
         }
         public void EnableAssistMode()
         {
@@ -77,6 +93,7 @@ namespace HiddenUniverse_WebClient
         public void EnableAutoUse()
         {
             autoUseTB.Visible = autoUseTB.Enabled = autoUseA.Visible = autoUseA.Enabled = autoUseB.Visible = autoUseB.Enabled = autoUseC.Visible = autoUseC.Enabled = autoUseButt.Visible = autoUseButt.Enabled = true;
+            autoUseHeaderLabel.Visible = true;
         }
         public void InitializeChromium()
         {
@@ -86,7 +103,7 @@ namespace HiddenUniverse_WebClient
             settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 /CefSharp Browser" + Cef.CefSharpVersion;
             Cef.Initialize(settings);
             chromeBrowser = new ChromiumWebBrowser("https://universe.flyff.com/play");
-            this.Controls.Add(chromeBrowser);
+            browserHostPanel.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
             if (autoUseTB.Enabled) {
                 chromeBrowser.JavascriptMessageReceived += chromeBrowser_SetMousePos;
@@ -487,6 +504,62 @@ namespace HiddenUniverse_WebClient
             else if (autoUseTimerC.Timer != null)
             {
                 autoUseIntervalC = autoUseTimerC.interval = autoUseTimerC.Timer.Interval = interval;
+            }
+        }
+
+        private void useSelectedItemButton_Click(object sender, EventArgs e)
+        {
+            ActivateSelectedSlot(inventoryTaskbarSelector, inventorySlotSelector);
+        }
+
+        private void triggerAttackSlotButton_Click(object sender, EventArgs e)
+        {
+            ActivateSelectedSlot(attackTaskbarSelector, attackSlotSelector);
+        }
+
+        private void basicAttackButton_Click(object sender, EventArgs e)
+        {
+            sendKeyCodeToBrowser(Keybinds.actionKey);
+        }
+
+        private async void burstAttackButton_Click(object sender, EventArgs e)
+        {
+            await ExecuteAttackBurstAsync();
+        }
+
+        private void inventoryQuickList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (inventoryQuickList.SelectedItems.Count == 0) { return; }
+            if (inventoryQuickList.SelectedItems[0].Tag is Tuple<int, int> mapping)
+            {
+                inventoryTaskbarSelector.SelectedIndex = mapping.Item1;
+                inventorySlotSelector.SelectedIndex = mapping.Item2;
+            }
+        }
+
+        private void ActivateSelectedSlot(ComboBox taskbarSelector, ComboBox slotSelector)
+        {
+            if (taskbarSelector.SelectedIndex < 0 || slotSelector.SelectedIndex < 0) { return; }
+            ActivateActionSlot(taskbarSelector.SelectedIndex, slotSelector.SelectedIndex);
+        }
+
+        private void ActivateActionSlot(int taskbarIndex, int slotIndex)
+        {
+            var taskbars = Keybinds.GetTaskbars();
+            var slots = Keybinds.GetSlots();
+            if (taskbarIndex < 0 || taskbarIndex >= taskbars.Length) { return; }
+            if (slotIndex < 0 || slotIndex >= slots.Length) { return; }
+            sendKeyCodeToBrowser(taskbars[taskbarIndex]);
+            sendKeyCodeToBrowser(slots[slotIndex]);
+        }
+
+        private async Task ExecuteAttackBurstAsync()
+        {
+            var combo = new (int taskbar, int slot)[] { (0, 0), (0, 1), (0, 2) };
+            foreach (var step in combo)
+            {
+                ActivateActionSlot(step.taskbar, step.slot);
+                await Task.Delay(150);
             }
         }
 
