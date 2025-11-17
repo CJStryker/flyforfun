@@ -430,6 +430,111 @@
             this.autoUseButt.Visible = false;
             this.autoUseButt.Click += new System.EventHandler(this.autoUseButt_Click);
             // 
+            // autoCombatBox
+            // 
+            this.autoCombatBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoCombatBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.autoCombatBox.BackColor = System.Drawing.Color.Gray;
+            this.autoCombatBox.Enabled = false;
+            this.autoCombatBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.autoCombatBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoCombatBox.Location = new System.Drawing.Point(1648, 309);
+            this.autoCombatBox.Name = "autoCombatBox";
+            this.autoCombatBox.Size = new System.Drawing.Size(236, 53);
+            this.autoCombatBox.TabIndex = 7;
+            this.autoCombatBox.Text = "Auto Combat";
+            this.autoCombatBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.autoCombatBox.UseVisualStyleBackColor = false;
+            this.autoCombatBox.Visible = false;
+            this.autoCombatBox.CheckStateChanged += new System.EventHandler(this.autoCombatBox_CheckStateChanged);
+            // 
+            // autoCombatIntervalBox
+            // 
+            this.autoCombatIntervalBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoCombatIntervalBox.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoCombatIntervalBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.autoCombatIntervalBox.Enabled = false;
+            this.autoCombatIntervalBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoCombatIntervalBox.FormattingEnabled = true;
+            this.autoCombatIntervalBox.Items.AddRange(new object[] {
+            "Every 500 ms",
+            "Every 1 seconds",
+            "Every 2 seconds",
+            "Every 3 seconds",
+            "Every 5 seconds"});
+            this.autoCombatIntervalBox.Location = new System.Drawing.Point(1648, 368);
+            this.autoCombatIntervalBox.Name = "autoCombatIntervalBox";
+            this.autoCombatIntervalBox.Size = new System.Drawing.Size(236, 47);
+            this.autoCombatIntervalBox.TabIndex = 8;
+            this.autoCombatIntervalBox.Visible = false;
+            this.autoCombatIntervalBox.SelectedIndexChanged += new System.EventHandler(this.autoCombatIntervalBox_SelectedIndexChanged);
+            // 
+            // autoCombatSkills
+            // 
+            this.autoCombatSkills.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoCombatSkills.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoCombatSkills.Enabled = false;
+            this.autoCombatSkills.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoCombatSkills.Location = new System.Drawing.Point(1648, 421);
+            this.autoCombatSkills.Multiline = true;
+            this.autoCombatSkills.Name = "autoCombatSkills";
+            this.autoCombatSkills.Size = new System.Drawing.Size(236, 120);
+            this.autoCombatSkills.TabIndex = 9;
+            this.autoCombatSkills.Visible = false;
+            this.autoCombatSkills.TextChanged += new System.EventHandler(this.autoCombatSkills_TextChanged);
+            // 
+            // autoPathBox
+            // 
+            this.autoPathBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoPathBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.autoPathBox.BackColor = System.Drawing.Color.Gray;
+            this.autoPathBox.Enabled = false;
+            this.autoPathBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.autoPathBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 15.85714F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoPathBox.Location = new System.Drawing.Point(1648, 559);
+            this.autoPathBox.Name = "autoPathBox";
+            this.autoPathBox.Size = new System.Drawing.Size(236, 53);
+            this.autoPathBox.TabIndex = 10;
+            this.autoPathBox.Text = "Auto Path";
+            this.autoPathBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.autoPathBox.UseVisualStyleBackColor = false;
+            this.autoPathBox.Visible = false;
+            this.autoPathBox.CheckStateChanged += new System.EventHandler(this.autoPathBox_CheckStateChanged);
+            // 
+            // autoPathIntervalBox
+            // 
+            this.autoPathIntervalBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoPathIntervalBox.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoPathIntervalBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.autoPathIntervalBox.Enabled = false;
+            this.autoPathIntervalBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoPathIntervalBox.FormattingEnabled = true;
+            this.autoPathIntervalBox.Items.AddRange(new object[] {
+            "Every 2 seconds",
+            "Every 3 seconds",
+            "Every 5 seconds",
+            "Every 10 seconds"});
+            this.autoPathIntervalBox.Location = new System.Drawing.Point(1648, 618);
+            this.autoPathIntervalBox.Name = "autoPathIntervalBox";
+            this.autoPathIntervalBox.Size = new System.Drawing.Size(236, 47);
+            this.autoPathIntervalBox.TabIndex = 11;
+            this.autoPathIntervalBox.Visible = false;
+            this.autoPathIntervalBox.SelectedIndexChanged += new System.EventHandler(this.autoPathIntervalBox_SelectedIndexChanged);
+            // 
+            // autoPathWaypoints
+            // 
+            this.autoPathWaypoints.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.autoPathWaypoints.BackColor = System.Drawing.Color.PeachPuff;
+            this.autoPathWaypoints.Enabled = false;
+            this.autoPathWaypoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.autoPathWaypoints.Location = new System.Drawing.Point(1648, 671);
+            this.autoPathWaypoints.Multiline = true;
+            this.autoPathWaypoints.Name = "autoPathWaypoints";
+            this.autoPathWaypoints.Size = new System.Drawing.Size(236, 150);
+            this.autoPathWaypoints.TabIndex = 12;
+            this.autoPathWaypoints.Visible = false;
+            this.autoPathWaypoints.TextChanged += new System.EventHandler(this.autoPathWaypoints_TextChanged);
+            // 
             // FlyffWCForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -437,6 +542,12 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1896, 1016);
+            this.Controls.Add(this.autoPathWaypoints);
+            this.Controls.Add(this.autoPathIntervalBox);
+            this.Controls.Add(this.autoPathBox);
+            this.Controls.Add(this.autoCombatSkills);
+            this.Controls.Add(this.autoCombatIntervalBox);
+            this.Controls.Add(this.autoCombatBox);
             this.Controls.Add(this.autoUseButt);
             this.Controls.Add(this.autoUseTB);
             this.Controls.Add(this.keybindsButt);
@@ -476,6 +587,12 @@
         private System.Windows.Forms.CheckBox autoUseB;
         private System.Windows.Forms.CheckBox autoUseA;
         private System.Windows.Forms.Button autoUseButt;
+        private System.Windows.Forms.CheckBox autoCombatBox;
+        private System.Windows.Forms.ComboBox autoCombatIntervalBox;
+        private System.Windows.Forms.TextBox autoCombatSkills;
+        private System.Windows.Forms.CheckBox autoPathBox;
+        private System.Windows.Forms.ComboBox autoPathIntervalBox;
+        private System.Windows.Forms.TextBox autoPathWaypoints;
     }
 }
 
