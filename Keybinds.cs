@@ -27,17 +27,27 @@ namespace HiddenUniverse_WebClient
         internal static int follow { get; set; } = ((int)Keys.Z);
         internal const int ESC = ((int)Keys.Escape);
 
-        public Keybinds()
+        static Keybinds()
         {
             InitDictionary();
         }
-        private void InitDictionary()
+
+        public Keybinds()
         {
+        }
+
+        private static void InitDictionary()
+        {
+            if (keyValuePairs.Count > 0) { return; }
             keyValuePairs.Add("TAB", 0x09);
             keyValuePairs.Add("SHIFT", 0x10);
             keyValuePairs.Add("CTRL", 0x11);
             keyValuePairs.Add("ALT", 0x12);
             keyValuePairs.Add("CAPSLOCK", 0x14);
+            keyValuePairs.Add("ESC", 0x1B);
+            keyValuePairs.Add("SPACE", 0x20);
+            keyValuePairs.Add("ENTER", 0x0D);
+            keyValuePairs.Add("BACKSPACE", 0x08);
             keyValuePairs.Add("PAGEUP", 0x21);
             keyValuePairs.Add("PAGEDOWN", 0x22);
             keyValuePairs.Add("END", 0x23);

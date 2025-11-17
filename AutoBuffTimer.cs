@@ -19,14 +19,15 @@ namespace HiddenUniverse_WebClient
         public int currentBuffIndex = 0;
         private string[] selectedBuffsSlots;
         public static int delaybb = 1750;
-        public DateTime cdStart, abStart;
+        public DateTime cdStart = default(DateTime);
+        public DateTime abStart = default(DateTime);
         int defaultFIndex;
 
         public void InitTimer()
         {
             if (autoBuffInterval > 0)
             {
-                if (abStart == null) { abStart = DateTime.Now; }
+                if (abStart == default(DateTime)) { abStart = DateTime.Now; }
                 timer = new System.Windows.Forms.Timer();
                 timer.Tick += new EventHandler(Timer_Tick);
                 timer.Interval = 200; // in miliseconds
@@ -35,7 +36,7 @@ namespace HiddenUniverse_WebClient
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (abStart == null) { abStart = DateTime.Now; }
+            if (abStart == default(DateTime)) { abStart = DateTime.Now; }
             DateTime dt = DateTime.Now;
             TimeSpan ts = dt.Subtract(abStart);
             if (ts.TotalMilliseconds >= autoBuffInterval) { FlyffWCForm.Instance.initiateBuff(); abStart = DateTime.Now; }
@@ -47,35 +48,71 @@ namespace HiddenUniverse_WebClient
             delaybbTimer.Interval = delaybb;
             delaybbTimer.Start();
         }
-        private void DelaybbTimer_Tick(object sender, EventArgs e)
+        private async void DelaybbTimer_Tick(object sender, EventArgs e)
         {
-            if (selectedBuffsSlots == null || currentBuffIndex != selectedBuffsSlots.Length)
+            if (FlyffWCForm.Instance == null)
             {
                 delaybbTimer.Stop();
-                if (currentBuffIndex == 0) { 
-                    selectedBuffsSlots = FlyffWCForm.Instance.selectedBuffSlots.ToArray();
-                    int f, n;
-                    FlyffWCForm.Instance.AutoBuffStringConvert(selectedBuffsSlots[currentBuffIndex], out f, out n);
-                    defaultFIndex = f;
-                }
-                int fKeyIndex, nKeyIndex;
-                FlyffWCForm.Instance.AutoBuffStringConvert(selectedBuffsSlots[currentBuffIndex], out fKeyIndex, out nKeyIndex);
-                FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetTaskbars()[fKeyIndex]);
-                Task.Delay(75);// delay between switching hotbar & sending a buff command
-                FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetSlots()[nKeyIndex]);
-                currentBuffIndex++;
-                delaybbTimer.Start();
+                return;
             }
-            else
+
+            if (FlyffWCForm.Instance.selectedBuffSlots == null || FlyffWCForm.Instance.selectedBuffSlots.Count == 0)
             {
-                Task.Delay(1000);
-                if (FlyffWCForm.Instance.healWasEnabled)
-                {
-                    FlyffWCForm.Instance.autoHealBox.Checked = true;
-                }
-                FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetTaskbars()[defaultFIndex]);
-                defaultFIndex = default(int);
+                ResetBuffRotation();
+                return;
+            }
+
+            if (selectedBuffsSlots == null || selectedBuffsSlots.Length == 0)
+            {
+                selectedBuffsSlots = FlyffWCForm.Instance.selectedBuffSlots.ToArray();
                 currentBuffIndex = 0;
+            }
+
+            if (currentBuffIndex >= selectedBuffsSlots.Length)
+            {
+                await FinishBuffRotationAsync().ConfigureAwait(true);
+                return;
+            }
+
+            delaybbTimer.Stop();
+            if (currentBuffIndex == 0)
+            {
+                int f, n;
+                FlyffWCForm.Instance.AutoBuffStringConvert(selectedBuffsSlots[currentBuffIndex], out f, out n);
+                defaultFIndex = f;
+            }
+
+            int fKeyIndex, nKeyIndex;
+            FlyffWCForm.Instance.AutoBuffStringConvert(selectedBuffsSlots[currentBuffIndex], out fKeyIndex, out nKeyIndex);
+            FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetTaskbars()[fKeyIndex]);
+            await Task.Delay(75).ConfigureAwait(true); // delay between switching hotbar & sending a buff command
+            FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetSlots()[nKeyIndex]);
+            currentBuffIndex++;
+            delaybbTimer.Start();
+        }
+
+        private async Task FinishBuffRotationAsync()
+        {
+            delaybbTimer.Stop();
+            await Task.Delay(1000).ConfigureAwait(true);
+            if (FlyffWCForm.Instance.healWasEnabled)
+            {
+                FlyffWCForm.Instance.autoHealBox.Checked = true;
+            }
+            if (selectedBuffsSlots != null && selectedBuffsSlots.Length > 0)
+            {
+                FlyffWCForm.Instance.sendKeyCodeToBrowser(Keybinds.GetTaskbars()[defaultFIndex]);
+            }
+            ResetBuffRotation();
+        }
+
+        private void ResetBuffRotation()
+        {
+            defaultFIndex = default(int);
+            currentBuffIndex = 0;
+            selectedBuffsSlots = null;
+            if (delaybbTimer != null)
+            {
                 delaybbTimer.Stop();
             }
         }

@@ -634,35 +634,52 @@ namespace HiddenUniverse_WebClient
                 automationBridgeAvailable = true;
             }
         }
-        public void InitAutoUse(string owner)
+        public async Task InitAutoUseAsync(string owner)
         {
-            if (owner == "A")
+            var host = chromeBrowser?.GetBrowser()?.GetHost();
+            if (host == null)
+            {
+                return;
+            }
+
+            if (!TryGetAutoUseTarget(owner, out var target))
+            {
+                return;
+            }
+
+            host.SendMouseClickEvent(target.X, target.Y, MouseButtonType.Left, false, 1, CefEventFlags.None);
+            await Task.Delay(15).ConfigureAwait(true);
+            host.SendMouseClickEvent(target.X, target.Y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+        }
+
+        private bool TryGetAutoUseTarget(string owner, out Point target)
+        {
+            target = default(Point);
+            if (string.Equals(owner, "A", StringComparison.OrdinalIgnoreCase))
             {
                 if (autoUseA.Checked && autoUsePosA != default(Point))
                 {
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosA.X, autoUsePosA.Y, MouseButtonType.Left, false, 1, CefEventFlags.None);
-                    Task.Delay(15);
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosA.X, autoUsePosA.Y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+                    target = autoUsePosA;
+                    return true;
                 }
             }
-            else if (owner == "B")
+            else if (string.Equals(owner, "B", StringComparison.OrdinalIgnoreCase))
             {
                 if (autoUseB.Checked && autoUsePosB != default(Point))
                 {
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosB.X, autoUsePosB.Y, MouseButtonType.Left, false, 1, CefEventFlags.None);
-                    Task.Delay(15);
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosB.X, autoUsePosB.Y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+                    target = autoUsePosB;
+                    return true;
                 }
             }
-            else if (owner == "C")
+            else if (string.Equals(owner, "C", StringComparison.OrdinalIgnoreCase))
             {
                 if (autoUseC.Checked && autoUsePosC != default(Point))
                 {
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosC.X, autoUsePosC.Y, MouseButtonType.Left, false, 1, CefEventFlags.None);
-                    Task.Delay(15);
-                    chromeBrowser.GetBrowser().GetHost().SendMouseClickEvent(autoUsePosC.X, autoUsePosC.Y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+                    target = autoUsePosC;
+                    return true;
                 }
             }
+            return false;
         }
         private void autoUseA_CheckStateChanged(object sender, EventArgs e)
         {
@@ -847,15 +864,26 @@ namespace HiddenUniverse_WebClient
         // Send Keyboard Keystroke
         public void sendKeyCodeToBrowser(int keyCodeHex)
         {
+            if (chromeBrowser?.IsBrowserInitialized != true)
+            {
+                return;
+            }
+
+            var host = chromeBrowser.GetBrowser()?.GetHost();
+            if (host == null)
+            {
+                return;
+            }
+
             KeyEvent k = new KeyEvent();
             k.Modifiers = CefEventFlags.CapsLockOn; // added to allow sending keyboard commands even if selected language is not English
             k.WindowsKeyCode = keyCodeHex;
             k.FocusOnEditableField = false;
             k.IsSystemKey = false;
             k.Type = KeyEventType.KeyDown;
-            chromeBrowser.GetBrowser().GetHost().SendKeyEvent(k);
+            host.SendKeyEvent(k);
             k.Type = KeyEventType.KeyUp;
-            chromeBrowser.GetBrowser().GetHost().SendKeyEvent(k);
+            host.SendKeyEvent(k);
         }
 
         // Updates
@@ -922,6 +950,120 @@ namespace HiddenUniverse_WebClient
             {
                 updateAction();
             }
+        }
+
+        private List<int> BuildKeySequence(string config)
+        {
+            var sequence = new List<int>();
+            if (string.IsNullOrWhiteSpace(config)) { return sequence; }
+            var tokens = config.Split(new[] { ',', '\n', '\r', '\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var token in tokens)
+            {
+                if (TryResolveKeyCode(token.Trim(), out var keyCode))
+                {
+                    sequence.Add(keyCode);
+                }
+            }
+            return sequence;
+        }
+
+        private bool TryResolveKeyCode(string token, out int keyCode)
+        {
+            keyCode = 0;
+            if (string.IsNullOrWhiteSpace(token)) { return false; }
+            var normalized = token.Trim().ToUpperInvariant();
+
+            if (normalized.Length == 1 && char.IsDigit(normalized[0]))
+            {
+                var slots = Keybinds.GetSlots();
+                int index = normalized[0] - '0';
+                if (index >= 0 && index < slots.Length)
+                {
+                    keyCode = slots[index];
+                    return true;
+                }
+            }
+
+            if (normalized.StartsWith("SLOT") && int.TryParse(normalized.Substring(4), out var slotIndex))
+            {
+                var slots = Keybinds.GetSlots();
+                if (slotIndex >= 0 && slotIndex < slots.Length)
+                {
+                    keyCode = slots[slotIndex];
+                    return true;
+                }
+            }
+
+            if (normalized.StartsWith("TASKBAR") && int.TryParse(normalized.Substring(7), out var taskbarIndex))
+            {
+                var taskbars = Keybinds.GetTaskbars();
+                if (taskbarIndex > 0 && taskbarIndex <= taskbars.Length)
+                {
+                    keyCode = taskbars[taskbarIndex - 1];
+                    return true;
+                }
+            }
+
+            if (normalized == "ACTION" || normalized == "ACTIONKEY")
+            {
+                keyCode = Keybinds.actionKey;
+                return true;
+            }
+
+            if (normalized == "FOLLOW")
+            {
+                keyCode = Keybinds.follow;
+                return true;
+            }
+
+            if (Keybinds.keyValuePairs.TryGetValue(normalized, out var mappedValue))
+            {
+                keyCode = mappedValue;
+                return true;
+            }
+
+            if (Enum.TryParse(token, true, out Keys parsedKey))
+            {
+                keyCode = (int)parsedKey;
+                return true;
+            }
+            return false;
+        }
+
+        private int ParseIntervalFromText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) { return 1000; }
+            var match = Regex.Match(text, "([0-9]+(?:\\.[0-9]+)?)", RegexOptions.IgnoreCase);
+            if (!match.Success)
+            {
+                return 1000;
+            }
+
+            double value;
+            if (!double.TryParse(match.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+            {
+                return 1000;
+            }
+
+            int multiplier = 1000;
+            if (text.IndexOf("minute", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                multiplier = 60000;
+            }
+            else if (text.IndexOf("millisecond", StringComparison.OrdinalIgnoreCase) >= 0 || text.IndexOf("ms", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                multiplier = 1;
+            }
+
+            var interval = (int)Math.Max(1, Math.Round(value * multiplier));
+            return interval;
+        }
+
+        private static float Distance(PointF a, PointF b)
+        {
+            var dx = a.X - b.X;
+            var dy = a.Y - b.Y;
+            return (float)Math.Sqrt((dx * dx) + (dy * dy));
         }
     }
 }
